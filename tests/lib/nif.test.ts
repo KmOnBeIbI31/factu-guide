@@ -35,3 +35,22 @@ describe('validateNif — DNI', () => {
     if (!result.valid) expect(result.reason).toMatch(/vacío|empty/i);
   });
 });
+
+describe('validateNif — NIE', () => {
+  it('accepts a valid NIE starting with X', () => {
+    expect(validateNif('X1234567L')).toMatchObject({ valid: true, type: 'NIE' });
+  });
+
+  it('accepts a valid NIE starting with Y', () => {
+    expect(validateNif('Y1234567X')).toMatchObject({ valid: true, type: 'NIE' });
+  });
+
+  it('accepts a valid NIE starting with Z', () => {
+    expect(validateNif('Z1234567R')).toMatchObject({ valid: true, type: 'NIE' });
+  });
+
+  it('rejects NIE with bad control letter', () => {
+    const result = validateNif('X1234567A');
+    expect(result.valid).toBe(false);
+  });
+});
