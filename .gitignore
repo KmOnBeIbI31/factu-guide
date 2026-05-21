@@ -22,3 +22,15 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# Coverage
+coverage/
+
+# Playwright
+test-results/
+playwright-report/
+playwright/.cache/
+
+# OS junk
+.DS_Store
+Thumbs.db
