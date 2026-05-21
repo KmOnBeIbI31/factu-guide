@@ -54,3 +54,53 @@ describe('validateNif — NIE', () => {
     expect(result.valid).toBe(false);
   });
 });
+
+describe('validateNif — CIF', () => {
+  it('accepts a valid CIF with numeric control digit', () => {
+    expect(validateNif('B12345674')).toMatchObject({
+      valid: true,
+      type: 'CIF',
+      orgType: expect.stringMatching(/sociedad limitada/i),
+    });
+  });
+
+  it('accepts a valid CIF with letter control digit', () => {
+    expect(validateNif('P1234567D')).toMatchObject({
+      valid: true,
+      type: 'CIF',
+      orgType: expect.stringMatching(/corporación local/i),
+    });
+  });
+
+  it('rejects a CIF with wrong control digit', () => {
+    expect(validateNif('B12345670').valid).toBe(false);
+  });
+
+  it('infers orgType S.A. for letter A', () => {
+    expect(validateNif('A58818501')).toMatchObject({
+      valid: true,
+      type: 'CIF',
+      orgType: expect.stringMatching(/sociedad anónima/i),
+    });
+  });
+
+  it('accepts CIF with accept-either control (numeric form)', () => {
+    expect(validateNif('G12345674')).toMatchObject({
+      valid: true,
+      type: 'CIF',
+      orgType: expect.stringMatching(/asociación/i),
+    });
+  });
+
+  it('accepts CIF with accept-either control (letter form)', () => {
+    expect(validateNif('G1234567D')).toMatchObject({
+      valid: true,
+      type: 'CIF',
+      orgType: expect.stringMatching(/asociación/i),
+    });
+  });
+
+  it('rejects CIF with accept-either letter and wrong control', () => {
+    expect(validateNif('G1234567A').valid).toBe(false);
+  });
+});
