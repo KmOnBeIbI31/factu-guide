@@ -12,7 +12,10 @@
     "astro": "astro",
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
-    "format": "biome format --write ."
+    "format": "biome format --write .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:cov": "vitest run --coverage"
   },
   "dependencies": {
     "@astrojs/mdx": "^5.0.6",
@@ -23,6 +26,8 @@
     "tailwindcss": "^4.3.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.9.4"
+    "@biomejs/biome": "1.9.4",
+    "@vitest/coverage-v8": "^4.1.7",
+    "vitest": "^4.1.7"
   }
 }
