@@ -1,0 +1,42 @@
+---
+import Container from './Container.astro';
+---
+<footer class="mt-16 border-t border-zinc-200 bg-surface-raised py-10 text-sm text-ink-muted">
+  <Container>
+    <div class="grid gap-8 md:grid-cols-4">
+      <div>
+        <div class="font-bold text-ink mb-2">factu.guide</div>
+        <p>Guías y herramientas para cumplir VeriFactu sin volverse loco.</p>
+      </div>
+      <div>
+        <div class="font-semibold text-ink mb-2">Contenido</div>
+        <ul class="space-y-1">
+          <li><a href="/guias/cumplimiento" class="hover:text-ink">Cumplimiento</a></li>
+          <li><a href="/guias/fiscalidad"   class="hover:text-ink">Fiscalidad</a></li>
+          <li><a href="/guias/casos"        class="hover:text-ink">Casos</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="font-semibold text-ink mb-2">Proyecto</div>
+        <ul class="space-y-1">
+          <li><a href="/mcp"     class="hover:text-ink">verifactu-mcp</a></li>
+          <li><a href="/sobre"   class="hover:text-ink">Sobre</a></li>
+          <li><a href="/contacto" class="hover:text-ink">Contacto</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="font-semibold text-ink mb-2">Legal</div>
+        <ul class="space-y-1">
+          <li><a href="/legal/aviso-legal" class="hover:text-ink">Aviso legal</a></li>
+          <li><a href="/legal/privacidad"  class="hover:text-ink">Privacidad</a></li>
+          <li><a href="/legal/cookies"     class="hover:text-ink">Cookies</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="mt-8 border-t border-zinc-200 pt-6 text-xs">
+      factu.guide es un sitio independiente con información sobre VeriFactu y
+      facturación electrónica. <strong>No es el sitio oficial de la AEAT</strong>.
+      Sitio oficial: <a href="https://sede.agenciatributaria.gob.es" class="underline">sede.agenciatributaria.gob.es</a>.
+    </p>
+  </Container>
+</footer>

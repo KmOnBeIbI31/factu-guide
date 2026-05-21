@@ -1,0 +1,8 @@
+---
+interface Props { width?: 'app' | 'reading'; class?: string; }
+const { width = 'app', class: cls = '' } = Astro.props;
+const widthClass = width === 'reading' ? 'max-w-reading' : 'max-w-app';
+---
+<div class={`mx-auto ${widthClass} px-4 md:px-6 ${cls}`.trim()}>
+  <slot />
+</div>

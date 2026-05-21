@@ -1,17 +1,19 @@
 ---
-import '../styles/global.css';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/layout/Container.astro';
 ---
-
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout
+  title="factu.guide — Cumple VeriFactu sin volverte loco"
+  description="Guías, calculadoras y un MCP que emite facturas desde Claude. Para autónomos y gestorías españolas."
+>
+  <Container>
+    <section class="py-16 text-center">
+      <h1 class="text-4xl md:text-5xl font-bold text-ink leading-tight">
+        Cumple VeriFactu sin volverte loco.
+      </h1>
+      <p class="mt-4 text-lg text-ink-muted">
+        Guías, calculadoras y un MCP que emite facturas desde Claude.
+      </p>
+    </section>
+  </Container>
+</BaseLayout>
