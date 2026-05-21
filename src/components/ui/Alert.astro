@@ -1,0 +1,14 @@
+---
+type Tone = 'info' | 'warn' | 'danger';
+interface Props { tone?: Tone; title?: string; }
+const { tone = 'info', title } = Astro.props;
+const tones: Record<Tone, string> = {
+  info:   'border-brand-500 bg-brand-50 text-brand-900',
+  warn:   'border-amber-500 bg-amber-50 text-amber-900',
+  danger: 'border-red-500 bg-red-50 text-red-900',
+};
+---
+<div class={`rounded-md border-l-4 p-4 ${tones[tone]}`}>
+  {title && <p class="font-semibold mb-1">{title}</p>}
+  <div class="text-sm"><slot /></div>
+</div>

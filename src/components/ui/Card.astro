@@ -1,0 +1,7 @@
+---
+interface Props { class?: string; }
+const { class: cls = '' } = Astro.props;
+---
+<div class={`rounded-xl border border-zinc-200 bg-white p-5 shadow-card ${cls}`.trim()}>
+  <slot />
+</div>
