@@ -1,22 +1,100 @@
 ---
+import { getCollection } from 'astro:content';
 import McpHeroBanner from '../components/cta/McpHeroBanner.astro';
 import Container from '../components/layout/Container.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+const TOOLS = [
+  {
+    href: '/herramientas/validador-nif',
+    title: 'Validador NIF / CIF / NIE',
+    desc: 'Comprueba la letra de control AEAT en segundos.',
+  },
+  {
+    href: '/herramientas/calculadora-iva',
+    title: 'Calculadora IVA + IRPF',
+    desc: 'Desglose completo de factura, formato es-ES.',
+  },
+  {
+    href: '/herramientas/generador-xml-verifactu',
+    title: 'Generador XML VeriFactu',
+    desc: 'Demo educativo con huella SHA-256.',
+  },
+];
+
+const latest = (await getCollection('blog', (e) => !e.data.draft))
+  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime())
+  .slice(0, 6);
 ---
 <BaseLayout
   title="factu.guide — Cumple VeriFactu sin volverte loco"
   description="Guías, calculadoras y un MCP que emite facturas desde Claude. Para autónomos y gestorías españolas."
 >
-  <Container>
-    <section class="py-16 text-center">
-      <h1 class="text-4xl md:text-5xl font-bold text-ink leading-tight">
-        Cumple VeriFactu sin volverte loco.
-      </h1>
-      <p class="mt-4 text-lg text-ink-muted">
-        Guías, calculadoras y un MCP que emite facturas desde Claude.
-      </p>
+  <section class="bg-gradient-to-br from-brand-50 to-white py-16">
+    <Container>
+      <div class="max-w-3xl mx-auto text-center">
+        <h1 class="text-4xl md:text-5xl font-bold text-ink leading-tight">
+          Cumple VeriFactu sin volverte loco.
+        </h1>
+        <p class="mt-4 text-lg text-ink-muted">
+          Guías, calculadoras y un MCP que emite facturas desde Claude. Independiente, gratis
+          y sin registro.
+        </p>
+        <div class="mt-8 flex flex-wrap justify-center gap-3">
+          <a
+            href="/guias"
+            class="rounded-md bg-brand-500 px-5 py-3 text-sm font-semibold text-white hover:bg-brand-600 transition"
+          >Leer las guías →</a>
+          <a
+            href="/herramientas"
+            class="rounded-md border border-zinc-300 px-5 py-3 text-sm font-semibold text-ink hover:bg-surface-sunken transition"
+          >Ver herramientas</a>
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <section class="py-12">
+    <Container>
+      <p class="text-xs uppercase tracking-wider text-ink-subtle font-semibold mb-3">Herramientas free</p>
+      <div class="grid gap-4 md:grid-cols-3">
+        {TOOLS.map(t => (
+          <a
+            href={t.href}
+            class="block rounded-xl border border-zinc-200 bg-white p-5 shadow-card hover:border-brand-500 transition"
+          >
+            <h2 class="font-semibold text-ink">{t.title}</h2>
+            <p class="mt-2 text-sm text-ink-muted">{t.desc}</p>
+          </a>
+        ))}
+      </div>
+    </Container>
+  </section>
+
+  {latest.length > 0 && (
+    <section class="py-12 bg-surface-raised">
+      <Container>
+        <div class="flex items-end justify-between mb-6">
+          <h2 class="text-2xl font-bold text-ink">Últimas guías</h2>
+          <a href="/guias" class="text-sm text-brand-600 hover:underline">Ver todas →</a>
+        </div>
+        <ul class="grid gap-4 md:grid-cols-3">
+          {latest.map(a => (
+            <li>
+              <a
+                href={`/guias/${a.id}`}
+                class="block rounded-xl border border-zinc-200 bg-white p-5 shadow-card hover:border-brand-500 transition h-full"
+              >
+                <p class="text-[10px] uppercase tracking-wider text-ink-subtle font-semibold">{a.data.pillar}</p>
+                <h3 class="mt-1 font-semibold text-ink">{a.data.title}</h3>
+                <p class="mt-2 text-sm text-ink-muted">{a.data.description}</p>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </Container>
     </section>
-  </Container>
+  )}
 
   <McpHeroBanner />
 </BaseLayout>
