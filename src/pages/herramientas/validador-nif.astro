@@ -1,12 +1,20 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import ToolShell from '../../components/tools/ToolShell.astro';
+import JsonLd from '../../components/seo/JsonLd.astro';
 import NifValidator from '../../components/tools/NifValidator.tsx';
+import ToolShell from '../../components/tools/ToolShell.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { webApplicationSchema } from '../../lib/seo';
 ---
 <BaseLayout
   title="Validador NIF, CIF y NIE online | factu.guide"
   description="Comprueba en segundos si un NIF, CIF o NIE español es válido. Validación con letra de control AEAT. Gratis y sin registro."
 >
+  <JsonLd
+    data={webApplicationSchema({
+      name: 'Validador NIF, CIF y NIE',
+      url: new URL('/herramientas/validador-nif', Astro.site ?? 'https://factu.guide').toString(),
+    })}
+  />
   <ToolShell
     title="Validador NIF, CIF y NIE"
     subtitle="Comprueba si un identificador es válido según el algoritmo de la AEAT."

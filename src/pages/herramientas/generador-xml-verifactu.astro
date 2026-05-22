@@ -1,12 +1,20 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import JsonLd from '../../components/seo/JsonLd.astro';
 import ToolShell from '../../components/tools/ToolShell.astro';
 import VerifactuXmlDemo from '../../components/tools/VerifactuXmlDemo.tsx';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { webApplicationSchema } from '../../lib/seo';
 ---
 <BaseLayout
   title="Generador XML VeriFactu online (demo) | factu.guide"
   description="Genera un registro VeriFactu en formato XML con huella SHA-256 encadenada. Demo educativo. Para envío real a AEAT usa nuestro MCP."
 >
+  <JsonLd
+    data={webApplicationSchema({
+      name: 'Generador XML VeriFactu (demo)',
+      url: new URL('/herramientas/generador-xml-verifactu', Astro.site ?? 'https://factu.guide').toString(),
+    })}
+  />
   <ToolShell
     title="Generador XML VeriFactu"
     subtitle="Construye un registro de alta y calcula la huella SHA-256 en el navegador."
