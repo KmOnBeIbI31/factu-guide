@@ -1,0 +1,25 @@
+---
+const ga4Id = import.meta.env.PUBLIC_GA4_ID ?? '';
+---
+{ga4Id && (
+  <>
+    <script async src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`} />
+    <script
+      set:html={`window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+window.gtag = gtag;
+
+// Default to denied - Funding Choices CMP will update this via Consent Mode v2
+gtag('consent', 'default', {
+  ad_storage: 'denied',
+  analytics_storage: 'denied',
+  ad_user_data: 'denied',
+  ad_personalization: 'denied',
+  wait_for_update: 500
+});
+
+gtag('js', new Date());
+gtag('config', '${ga4Id}', { anonymize_ip: true });`}
+    />
+  </>
+)}
