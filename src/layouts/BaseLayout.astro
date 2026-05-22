@@ -1,7 +1,8 @@
 ---
 import '../styles/global.css';
-import Header from '../components/layout/Header.astro';
+import AdSenseScript from '../components/ads/AdSenseScript.astro';
 import Footer from '../components/layout/Footer.astro';
+import Header from '../components/layout/Header.astro';
 
 interface Props {
   title: string;
@@ -24,6 +25,7 @@ const { title, description, canonical = Astro.url.href } = Astro.props;
     <meta property="og:type" content="website" />
     <meta property="og:image" content="/og-default.png" />
     <meta name="twitter:card" content="summary_large_image" />
+    <AdSenseScript />
   </head>
   <body class="min-h-screen flex flex-col">
     <Header />
