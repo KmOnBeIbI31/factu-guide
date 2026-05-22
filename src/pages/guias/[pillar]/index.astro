@@ -1,0 +1,57 @@
+---
+import { getCollection } from 'astro:content';
+import Container from '../../../components/layout/Container.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const PILLARS = ['cumplimiento', 'fiscalidad', 'casos'] as const;
+  return PILLARS.map((p) => ({ params: { pillar: p } }));
+}
+
+const { pillar } = Astro.params as { pillar: 'cumplimiento' | 'fiscalidad' | 'casos' };
+
+const labels: Record<typeof pillar, string> = {
+  cumplimiento: 'Cumplimiento VeriFactu',
+  fiscalidad: 'Fundamentos fiscales',
+  casos: 'Casos prácticos por sector',
+};
+
+const articles = (
+  await getCollection('blog', (e) => !e.data.draft && e.data.pillar === pillar)
+).sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime());
+---
+<BaseLayout
+  title={`${labels[pillar]} | factu.guide`}
+  description={`Guías sobre ${labels[pillar].toLowerCase()} para autónomos y gestorías españolas.`}
+>
+  <Container>
+    <section class="py-12">
+      <p class="font-sans text-xs uppercase tracking-wider text-ink-subtle mb-2">
+        <a href="/guias" class="hover:text-ink">Guías</a>
+      </p>
+      <h1 class="text-4xl font-bold text-ink">{labels[pillar]}</h1>
+
+      <ul class="mt-8 divide-y divide-zinc-200">
+        {articles.map(a => (
+          <li>
+            <a
+              href={`/guias/${a.id}`}
+              class="block py-5 hover:bg-surface-raised px-2 -mx-2 rounded"
+            >
+              <div class="text-lg font-semibold text-ink">{a.data.title}</div>
+              <p class="text-sm text-ink-muted mt-1">{a.data.description}</p>
+              <div class="font-sans text-xs text-ink-subtle mt-2">
+                {a.data.publishedAt.toLocaleDateString('es-ES', {
+                  year: 'numeric',
+                  month: 'short',
+                  day: 'numeric',
+                })} · {a.data.readingTime} min
+              </div>
+            </a>
+          </li>
+        ))}
+        {articles.length === 0 && <li class="py-8 text-ink-subtle">Aún no hay guías en este pilar.</li>}
+      </ul>
+    </section>
+  </Container>
+</BaseLayout>
