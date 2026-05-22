@@ -8,6 +8,8 @@ import RelatedArticles from '../components/editorial/RelatedArticles.astro';
 import SourcesList from '../components/editorial/SourcesList.astro';
 import TableOfContents from '../components/editorial/TableOfContents.astro';
 import Container from '../components/layout/Container.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import { articleSchema } from '../lib/seo';
 import BaseLayout from './BaseLayout.astro';
 
 interface Props {
@@ -23,6 +25,16 @@ const pillarLabel: Record<string, string> = {
 };
 ---
 <BaseLayout title={`${data.title} | factu.guide`} description={data.description}>
+  <JsonLd
+    data={articleSchema({
+      title: data.title,
+      description: data.description,
+      url: new URL(Astro.url.pathname, Astro.site ?? 'https://factu.guide').toString(),
+      publishedAt: data.publishedAt,
+      updatedAt: data.updatedAt,
+      sources: data.sources,
+    })}
+  />
   <article class="bg-surface-raised">
     <Container>
       <nav class="font-sans text-xs text-ink-subtle pt-6" aria-label="Breadcrumb">
