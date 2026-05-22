@@ -1,0 +1,41 @@
+---
+title: "Sanciones VeriFactu 2026: importes y casos reales"
+description: "Hasta 50.000€ por incumplir VeriFactu. Tabla completa de sanciones AEAT 2026, plazos vigentes y los 3 errores típicos que más multas generan."
+pillar: cumplimiento
+publishedAt: 2026-05-22
+author: adrian-sanchez
+tags: [verifactu, aeat, sanciones, autonomo]
+readingTime: 12
+sources:
+  - label: "BOE Real Decreto 1007/2023"
+    url: "https://www.boe.es/eli/es/rd/2023/12/05/1007"
+---
+
+## Qué sanciones contempla VeriFactu
+
+El sistema VeriFactu obliga a remitir cada registro de facturación encadenado
+por SHA-256. La AEAT establece sanciones graduadas según la gravedad del
+incumplimiento.
+
+### Sanción formal: no remisión
+
+No enviar los registros constituye infracción formal grave: hasta 6.000€ por
+factura no remitida, con tope global del 1% de la cifra de negocio.
+
+### Sanción material: alteración de huellas
+
+Alterar las huellas SHA-256 de registros ya enviados se considera infracción
+muy grave: hasta 50.000€ por registro y posible inhabilitación.
+
+## Los 3 errores más caros
+
+1. **Confiar en que la huella anterior la calcula bien el ERP**: muchos sistemas
+   antiguos calculan la huella canónica de forma incorrecta. Verifícalo antes.
+2. **No persistir el ID de registro AEAT**: necesario para anular o consultar.
+3. **Anular sobre registros aún no aceptados**: la AEAT rechaza anulaciones de
+   registros con estado "No Registrado". Espera al estado "Correcto".
+
+## Cómo prepararte
+
+Si emites pocas facturas, una herramienta gratuita y un proceso manual puede
+bastar. Si emites muchas, automatiza con verifactu-mcp o equivalente.

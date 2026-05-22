@@ -1,0 +1,39 @@
+---
+title: "Cómo factura un dev freelance en España (2026)"
+description: "Guía paso a paso para emitir tu primera factura como dev freelance: IVA al 21%, retención IRPF 7-15%, NIF de cliente y la trampa de los clientes extranjeros."
+pillar: casos
+publishedAt: 2026-05-22
+author: adrian-sanchez
+tags: [autonomo, dev, freelance, iva, irpf]
+readingTime: 10
+---
+
+## Estructura de una factura de dev
+
+Como autónomo dev en estimación directa, tu factura tiene:
+
+- **Base imponible** (precio del servicio).
+- **IVA 21%** (salvo cliente UE B2B con NIF intracomunitario válido).
+- **Retención IRPF**: 7% durante los primeros 3 años de actividad, 15% después.
+- **Datos del cliente**: NIF/CIF + razón social + dirección.
+
+## Cliente español B2B
+
+Aplica IVA 21% + retención IRPF. El cliente declara ambos en su modelo 303 y
+111.
+
+## Cliente UE B2B
+
+Si tiene NIF-IVA válido en VIES y tú estás dado de alta en ROI: IVA 0%
+(inversión del sujeto pasivo). Tu factura incluye la frase "Operación exenta
+art. 25 Ley 37/1992". Sin retención IRPF.
+
+## Cliente fuera UE
+
+Servicios prestados a no establecidos fuera de UE: IVA 0%. Sin retención. Pero
+revisa el convenio fiscal bilateral.
+
+## Encadenamiento VeriFactu
+
+Cada factura genera un registro VeriFactu encadenado al anterior por su huella
+SHA-256. Si usas verifactu-mcp, esto pasa automáticamente.
