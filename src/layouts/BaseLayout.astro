@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import AdSenseScript from '../components/ads/AdSenseScript.astro';
+import CmpScripts from '../components/gdpr/CmpScripts.astro';
 import Footer from '../components/layout/Footer.astro';
 import Header from '../components/layout/Header.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
@@ -27,6 +28,7 @@ const { title, description, canonical = Astro.url.href } = Astro.props;
     <meta property="og:type" content="website" />
     <meta property="og:image" content="/og-default.png" />
     <meta name="twitter:card" content="summary_large_image" />
+    <CmpScripts />
     <AdSenseScript />
     <JsonLd data={websiteSchema()} />
   </head>
