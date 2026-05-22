@@ -1,0 +1,60 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import AuthorCard from '../components/editorial/AuthorCard.astro';
+import LastUpdated from '../components/editorial/LastUpdated.astro';
+import SourcesList from '../components/editorial/SourcesList.astro';
+import TableOfContents from '../components/editorial/TableOfContents.astro';
+import Container from '../components/layout/Container.astro';
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  article: CollectionEntry<'blog'>;
+  headings: Array<{ depth: number; slug: string; text: string }>;
+}
+const { article, headings } = Astro.props;
+const { data } = article;
+const pillarLabel: Record<string, string> = {
+  cumplimiento: 'Cumplimiento',
+  fiscalidad: 'Fiscalidad',
+  casos: 'Casos prácticos',
+};
+---
+<BaseLayout title={`${data.title} | factu.guide`} description={data.description}>
+  <article class="bg-surface-raised">
+    <Container>
+      <nav class="font-sans text-xs text-ink-subtle pt-6" aria-label="Breadcrumb">
+        <a href="/guias" class="hover:text-ink">Guías</a> ›
+        <a href={`/guias/${data.pillar}`} class="hover:text-ink">{pillarLabel[data.pillar]}</a> ›
+        <span class="text-ink-muted">{data.title}</span>
+      </nav>
+    </Container>
+
+    <Container>
+      <div class="grid gap-8 lg:grid-cols-[200px_minmax(0,1fr)_280px] py-10">
+        <TableOfContents headings={headings} />
+
+        <div class="prose prose-zinc prose-headings:font-serif font-serif max-w-reading">
+          <p class="font-sans text-xs uppercase tracking-wider text-ink-subtle mb-2">
+            {pillarLabel[data.pillar]}
+          </p>
+          <h1 class="font-serif">{data.title}</h1>
+          <p class="font-serif text-lg text-ink-muted leading-relaxed">{data.description}</p>
+          <LastUpdated
+            publishedAt={data.publishedAt}
+            updatedAt={data.updatedAt}
+            readingTime={data.readingTime}
+          />
+          <AuthorCard authorId={data.author} />
+
+          <slot />
+
+          <SourcesList sources={data.sources} factCheckedAt={data.factCheckedAt} />
+        </div>
+
+        <aside class="hidden lg:flex flex-col gap-6 sticky top-20 self-start">
+          <slot name="sidebar" />
+        </aside>
+      </div>
+    </Container>
+  </article>
+</BaseLayout>
