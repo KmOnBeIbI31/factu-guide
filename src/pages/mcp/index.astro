@@ -1,0 +1,93 @@
+---
+import Container from '../../components/layout/Container.astro';
+import Alert from '../../components/ui/Alert.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const MCP_GH = 'https://github.com/CHANGEME/verifactu-mcp';
+const MCP_PYPI = 'https://pypi.org/project/verifactu-mcp/';
+
+const TOOLS = [
+  { name: 'generate_invoice_xml', desc: 'Genera XML válido con hash SHA-256 (sin enviar)' },
+  { name: 'send_invoice', desc: 'Envía registro de alta a AEAT y persiste la huella' },
+  { name: 'cancel_invoice', desc: 'Envía registro de anulación' },
+  { name: 'check_invoice_status', desc: 'Consulta el estado de un registro' },
+  { name: 'list_invoices', desc: 'Lista los registros enviados (filtros + paginación)' },
+  { name: 'get_last_hash', desc: 'Devuelve la última huella registrada localmente' },
+  { name: 'calculate_hash', desc: 'Calcula el hash SHA-256 de un registro' },
+];
+
+const CLAUDE_JSON = `{
+  "mcpServers": {
+    "verifactu": {
+      "command": "verifactu-mcp",
+      "env": {
+        "VERIFACTU_API_TOKEN": "tu_token_aqui"
+      }
+    }
+  }
+}`;
+---
+<BaseLayout
+  title="verifactu-mcp — Emite VeriFactu desde Claude Code | factu.guide"
+  description="Servidor MCP open-source para integrar VeriFactu (AEAT) con Claude Code y Cursor. 7 herramientas. MIT. PyPI."
+>
+  <Container>
+    <section class="py-16">
+      <p class="text-xs uppercase tracking-wider text-amber-600 font-semibold mb-2">
+        Open source · MIT
+      </p>
+      <h1 class="text-4xl md:text-5xl font-bold text-ink leading-tight">verifactu-mcp</h1>
+      <p class="mt-4 text-lg text-ink-muted max-w-2xl">
+        Servidor MCP en Python que añade 7 herramientas de facturación electrónica VeriFactu
+        (AEAT) a Claude Code y Cursor. Generas, encadenas, envías y consultas registros desde
+        lenguaje natural.
+      </p>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <a
+          href={MCP_GH}
+          class="rounded-md bg-ink px-5 py-2.5 text-sm font-semibold text-white hover:bg-ink/90 transition"
+        >GitHub →</a>
+        <a
+          href={MCP_PYPI}
+          class="rounded-md border border-zinc-300 px-5 py-2.5 text-sm font-semibold text-ink hover:bg-surface-sunken transition"
+        >PyPI →</a>
+      </div>
+    </section>
+
+    <section class="py-8">
+      <h2 class="text-2xl font-bold text-ink mb-4">Instalación</h2>
+      <ol class="space-y-4 text-sm text-ink-muted">
+        <li>
+          <strong class="text-ink">1.</strong> Instala el paquete:
+          <pre class="mt-2 overflow-x-auto rounded-md bg-zinc-900 p-3 text-xs text-zinc-100"><code>pip install verifactu-mcp</code></pre>
+        </li>
+        <li>
+          <strong class="text-ink">2.</strong> Añade esto a tu <code>~/.claude.json</code>:
+          <pre class="mt-2 overflow-x-auto rounded-md bg-zinc-900 p-3 text-xs text-zinc-100"><code>{CLAUDE_JSON}</code></pre>
+        </li>
+        <li><strong class="text-ink">3.</strong> Reinicia Claude Code y empieza a pedirle facturas.</li>
+      </ol>
+    </section>
+
+    <section class="py-8">
+      <h2 class="text-2xl font-bold text-ink mb-4">Las 7 herramientas</h2>
+      <table class="w-full text-sm">
+        <tbody class="divide-y divide-zinc-200">
+          {TOOLS.map(t => (
+            <tr>
+              <td class="py-2.5 pr-4 font-mono text-brand-700 whitespace-nowrap">{t.name}</td>
+              <td class="py-2.5 text-ink-muted">{t.desc}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </section>
+
+    <section class="py-8">
+      <Alert tone="info" title="Tu token nunca sale de tu máquina">
+        verifactu-mcp se ejecuta en local. El token de la API se lee del entorno y solo viaja
+        desde tu equipo a verifactuapi.es. Nada pasa por servidores intermedios nuestros.
+      </Alert>
+    </section>
+  </Container>
+</BaseLayout>
