@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ToolShell from '../../components/tools/ToolShell.astro';
+import IvaCalculator from '../../components/tools/IvaCalculator.tsx';
+---
+<BaseLayout
+  title="Calculadora IVA e IRPF para autónomos 2026 | factu.guide"
+  description="Calcula IVA (21%, 10%, 4%) y retención IRPF (7%, 15%) de tus facturas. Desglose completo, formato es-ES. Gratis y sin registro."
+>
+  <ToolShell
+    title="Calculadora IVA + IRPF"
+    subtitle="Desglose completo de factura con tipos vigentes 2026."
+  >
+    <IvaCalculator slot="tool" client:visible />
+    <Fragment slot="content">
+      <h2>Qué IVA aplico a mis facturas</h2>
+      <p>
+        El tipo general es el 21%, reducido 10% (hostelería, transporte de pasajeros),
+        superreducido 4% (alimentación básica, medicamentos, libros). Para servicios profesionales
+        casi siempre aplica el 21%.
+      </p>
+      <h2>Cuándo aplico retención IRPF</h2>
+      <p>
+        Los autónomos en estimación directa que facturan a empresas u otros autónomos aplican
+        retención: 15% general, 7% durante los 3 primeros años de actividad. A clientes
+        particulares (B2C) no se aplica retención.
+      </p>
+    </Fragment>
+  </ToolShell>
+</BaseLayout>

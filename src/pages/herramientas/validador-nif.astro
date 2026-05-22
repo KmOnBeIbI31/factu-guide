@@ -1,0 +1,43 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ToolShell from '../../components/tools/ToolShell.astro';
+import NifValidator from '../../components/tools/NifValidator.tsx';
+---
+<BaseLayout
+  title="Validador NIF, CIF y NIE online | factu.guide"
+  description="Comprueba en segundos si un NIF, CIF o NIE español es válido. Validación con letra de control AEAT. Gratis y sin registro."
+>
+  <ToolShell
+    title="Validador NIF, CIF y NIE"
+    subtitle="Comprueba si un identificador es válido según el algoritmo de la AEAT."
+  >
+    <NifValidator slot="tool" client:visible />
+    <Fragment slot="content">
+      <h2>Cómo funciona</h2>
+      <p>
+        El identificador fiscal español (NIF para personas físicas, CIF para entidades, NIE para
+        extranjeros) lleva una letra o dígito de control calculado a partir del cuerpo
+        numérico. Esta herramienta aplica el mismo algoritmo de la AEAT en tu navegador, sin
+        enviar nada a ningún servidor.
+      </p>
+      <h3>Diferencias DNI / NIE / CIF</h3>
+      <p>
+        <strong>DNI</strong>: 8 dígitos + letra. <strong>NIE</strong>: prefijo X/Y/Z + 7 dígitos
+        + letra. <strong>CIF</strong>: letra que indica tipo de organización + 7 dígitos +
+        dígito de control (puede ser número o letra).
+      </p>
+      <h2>Preguntas frecuentes</h2>
+      <details>
+        <summary>¿Mi NIF tiene letra mayúscula o minúscula?</summary>
+        <p>Es indiferente, pero la AEAT lo guarda en mayúsculas.</p>
+      </details>
+      <details>
+        <summary>¿El CIF y el NIF de empresa son lo mismo?</summary>
+        <p>
+          Desde 2008, formalmente todos son NIF. CIF es como se sigue llamando al de personas
+          jurídicas.
+        </p>
+      </details>
+    </Fragment>
+  </ToolShell>
+</BaseLayout>

@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ToolShell from '../../components/tools/ToolShell.astro';
+import VerifactuXmlDemo from '../../components/tools/VerifactuXmlDemo.tsx';
+---
+<BaseLayout
+  title="Generador XML VeriFactu online (demo) | factu.guide"
+  description="Genera un registro VeriFactu en formato XML con huella SHA-256 encadenada. Demo educativo. Para envío real a AEAT usa nuestro MCP."
+>
+  <ToolShell
+    title="Generador XML VeriFactu"
+    subtitle="Construye un registro de alta y calcula la huella SHA-256 en el navegador."
+  >
+    <VerifactuXmlDemo slot="tool" client:visible />
+    <Fragment slot="content">
+      <h2>Anatomía de un registro VeriFactu</h2>
+      <p>
+        El registro de alta contiene los campos canónicos definidos por la AEAT: IDFactura
+        (emisor + serie/número + fecha), Desglose con tipo y base, Destinatarios (obligatorio
+        para F1). El encadenamiento usa la huella SHA-256 del registro anterior.
+      </p>
+      <h2>Cómo se encadena la huella</h2>
+      <p>
+        Cada registro incluye en el bloque Encadenamiento la huella del registro anterior, o el
+        marcador <code>PrimerRegistro=S</code> si es el primero del emisor.
+      </p>
+      <h2>De demo a producción</h2>
+      <p>
+        Para emitir registros reales contra la AEAT, instala
+        <a href="/mcp">verifactu-mcp</a> en Claude Code o Cursor.
+      </p>
+    </Fragment>
+  </ToolShell>
+</BaseLayout>
