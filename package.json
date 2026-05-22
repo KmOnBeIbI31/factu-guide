@@ -15,7 +15,10 @@
     "format": "biome format --write .",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:cov": "vitest run --coverage"
+    "test:cov": "vitest run --coverage",
+    "lhci": "lhci autorun",
+    "e2e": "playwright test",
+    "e2e:headed": "playwright test --headed"
   },
   "dependencies": {
     "@astrojs/mdx": "^5.0.6",
@@ -32,6 +35,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
+    "@lhci/cli": "^0.15.1",
     "@tailwindcss/typography": "^0.5.19",
     "@vitest/coverage-v8": "^4.1.7",
     "vitest": "^4.1.7"

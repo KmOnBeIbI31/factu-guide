@@ -1,0 +1,25 @@
+{
+  "ci": {
+    "collect": {
+      "staticDistDir": "./dist",
+      "url": [
+        "http://localhost/index.html",
+        "http://localhost/herramientas/index.html",
+        "http://localhost/herramientas/validador-nif/index.html",
+        "http://localhost/guias/index.html",
+        "http://localhost/guias/cumplimiento/sanciones-verifactu-2026/index.html"
+      ],
+      "numberOfRuns": 3
+    },
+    "assert": {
+      "assertions": {
+        "categories:performance": ["error", { "minScore": 0.95 }],
+        "categories:accessibility": ["error", { "minScore": 0.95 }],
+        "categories:best-practices": ["error", { "minScore": 0.95 }],
+        "categories:seo": ["error", { "minScore": 1.0 }]
+      },
+      "budgetsFile": ".lighthouseci/budget.json"
+    },
+    "upload": { "target": "temporary-public-storage" }
+  }
+}
