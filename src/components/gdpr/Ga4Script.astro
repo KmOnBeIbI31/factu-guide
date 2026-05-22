@@ -1,5 +1,12 @@
 ---
 const ga4Id = import.meta.env.PUBLIC_GA4_ID ?? '';
+const adsenseId = import.meta.env.PUBLIC_ADSENSE_CLIENT ?? '';
+// If AdSense is not active there is no CMP banner that can update consent,
+// so analytics would be permanently denied. We default analytics to granted
+// in that case (legitimate interest for first-party stats). When AdSense
+// goes live, the Funding Choices CMP loads and takes over via consent
+// updates from the user's explicit choice.
+const analyticsDefault = adsenseId ? 'denied' : 'granted';
 ---
 {ga4Id && (
   <>
@@ -9,12 +16,13 @@ const ga4Id = import.meta.env.PUBLIC_GA4_ID ?? '';
 function gtag(){dataLayer.push(arguments);}
 window.gtag = gtag;
 
-// Default to denied - Funding Choices CMP will update this via Consent Mode v2
+// Consent Mode v2 defaults. Funding Choices CMP (loaded only when AdSense is
+// active) updates these via consent 'update' calls based on user choice.
 gtag('consent', 'default', {
   ad_storage: 'denied',
-  analytics_storage: 'denied',
   ad_user_data: 'denied',
   ad_personalization: 'denied',
+  analytics_storage: '${analyticsDefault}',
   wait_for_update: 500
 });
 
