@@ -1,0 +1,247 @@
+---
+title: "Presentar registros VeriFactu fuera de plazo: recargos y mitigación"
+description: "Qué pasa si no envías un registro VeriFactu a tiempo: recargos 5-20% por extemporaneidad, sanciones por no remisión y cómo regularizar con menor coste."
+pillar: cumplimiento
+publishedAt: 2026-05-22
+author: adrian-sanchez
+tags: [verifactu, recargos, fuera-plazo, sanciones, regularizacion]
+readingTime: 9
+sources:
+  - label: "BOE Real Decreto 1007/2023"
+    url: "https://www.boe.es/eli/es/rd/2023/12/05/1007"
+  - label: "Ley General Tributaria art. 27 (recargos)"
+    url: "https://www.boe.es/eli/es/l/2003/12/17/58"
+---
+
+VeriFactu obliga a remitir cada registro a la AEAT **de forma inmediata**
+tras emitir la factura. La realidad: a veces hay incidencia técnica,
+te vas de vacaciones con el servidor caído, o descubres tarde que tu
+software estaba mal configurado.
+
+Esta guía explica qué consecuencias tiene presentar registros fuera de
+plazo, cómo se aplican los recargos por extemporaneidad y cómo
+regularizar minimizando el daño.
+
+## Concepto: plazo de remisión VeriFactu
+
+El plazo normativo para enviar un registro a la AEAT es **"de forma
+inmediata"** tras la emisión de la factura. La normativa no fija un
+número exacto de horas, pero la AEAT considera razonable:
+
+- **Modo VeriFactu (recomendado)**: minutos o segundos. Tu software
+  envía al momento de emitir.
+- **Modo no-VeriFactu (no recomendado)**: 24-48 horas máximo, con
+  log local que justifique el retraso.
+
+A partir de varios días sin remitir, la AEAT considera incumplimiento
+y aplica el régimen sancionador del Real Decreto.
+
+## Diferencia entre incumplir y presentar tarde
+
+Es importante distinguir:
+
+### Incumplimiento total: no remitir
+
+No envías el registro. La AEAT no tiene constancia de la factura. Es
+infracción **grave** independiente de cuándo (o si nunca) lo arreglas.
+
+- Sanción base: **6.000 €/factura no remitida**.
+- Tope: 1 % de tu cifra de negocio anual.
+
+### Presentación tardía: remitir fuera de plazo
+
+Envías el registro pero después de la fecha en que debería haberse
+remitido. La AEAT lo acepta pero puede aplicar recargo por
+extemporaneidad.
+
+- Recargo: **5 %, 10 %, 15 % o 20 %** según retraso.
+- Más leve que la sanción por no remisión.
+
+Conclusión: **siempre es mejor presentar tarde que no presentar**.
+
+## Tabla de recargos por extemporaneidad
+
+Aplican los recargos del art. 27 de la Ley General Tributaria:
+
+| Retraso | Recargo |
+|---|---|
+| 1-3 meses | 5 % |
+| 3-6 meses | 10 % |
+| 6-12 meses | 15 % |
+| Más de 12 meses | 15 % + intereses de demora |
+
+Estos recargos se aplican sobre la **cuantía no ingresada o no
+declarada a tiempo**. En el caso de VeriFactu (que es declarativo de
+información, no ingreso), el cálculo es más complejo.
+
+En la práctica, lo crítico es:
+
+- **Si la factura ya estaba declarada en otro modelo** (303, 130) en
+  plazo: el recargo VeriFactu suele ser simbólico o nulo.
+- **Si la factura no se declaró**: la sanción es por la cuantía no
+  ingresada del IVA + recargo del modelo afectado.
+
+<InArticleAd adSlot="article-mid-1" />
+
+## Casos concretos de regularización
+
+### Caso 1: incidencia técnica de 2 días
+
+Tu servidor estuvo caído del lunes al miércoles. Emitiste 30 facturas
+en ese periodo que no se remitieron. El jueves vuelves online.
+
+**Acción correcta**:
+
+1. Reenvía las 30 facturas con sus fechas originales (no recientes).
+2. Documenta la incidencia (log del servidor, ticket del proveedor de
+   hosting, etc.).
+3. Si tu sistema tiene log de envío con fecha de generación + fecha
+   de éxito, la AEAT acepta el retraso como justificado.
+
+**Sanción esperada**: ninguna o mínima si documentas bien.
+
+### Caso 2: descubres tras 3 meses que un cliente nunca se envió
+
+Mientras revisas el modelo 303 del trimestre, ves una factura
+emitida hace 3 meses que nunca se remitió a la AEAT.
+
+**Acción correcta**:
+
+1. Envía el registro AHORA con la fecha original de la factura.
+2. Si en el 303 del trimestre original esa factura sí constaba (la
+   declaraste igual), no hay recargo significativo.
+3. Si en el 303 estaba ausente, tendrás que rectificar el 303
+   correspondiente con la AEAT.
+
+**Sanción esperada**: 5 % del IVA si no se ingresó a tiempo.
+
+### Caso 3: te descubre la AEAT antes que tú regularices
+
+La AEAT te requiere por inspección o cruce de datos. Aquí los
+recargos del 5-15 % **se convierten en sanción del 50-150 %** del
+importe no ingresado.
+
+Diferencia capital: **regularización voluntaria antes de
+requerimiento** vs **descubrimiento por la AEAT**.
+
+### Caso 4: cierre del negocio sin remitir últimos registros
+
+Cierras el autónomo (baja modelo 037). Tienes pendientes 10 facturas
+del último mes sin remitir.
+
+**Acción correcta**:
+
+1. Remite los 10 registros **antes** de cursar la baja AEAT.
+2. La baja efectiva queda con las cuentas saldadas y trazabilidad
+   completa.
+
+Si cursas la baja sin remitir, la AEAT te pide regularizar al
+detectarlo. Más caro.
+
+## Cómo declarar incidencia técnica
+
+Si una incidencia te imposibilita remitir durante un periodo
+significativo, declárala oficialmente:
+
+1. **Conserva evidencia técnica**: logs de tu servidor, tickets de
+   soporte de tu proveedor, capturas de error de tu ERP.
+2. **Notifica a la AEAT** si la incidencia supera 24 horas: envías
+   comunicación vía sede electrónica con la previsión de
+   regularización.
+3. **Regulariza en cuanto sea posible** y deja constancia en tu
+   contabilidad de cada incidencia.
+
+Si tu actividad genera muchas facturas/día (e-commerce, hostelería),
+considera **redundancia**:
+
+- Software con **cola persistente** que reintenta automáticamente
+  cuando vuelve la conexión.
+- **Backup periódico** del estado del ERP.
+- **Servidor alternativo** o cloud failover si tu sistema es crítico.
+
+## Cómo mitigar recargos: cuestión de timing
+
+Cuanto antes regularices, menor el coste. Tabla práctica:
+
+| Acción | Coste relativo |
+|---|---|
+| Regularizar mismo día (incidencia técnica resuelta rápido) | 0 |
+| Regularizar dentro del trimestre, antes del modelo 303 | Casi nulo |
+| Regularizar fuera del trimestre, antes de requerimiento | 5-15 % recargo |
+| AEAT te requiere antes de regularizar | 50-150 % sanción + IVA + intereses |
+
+La diferencia entre regularizar voluntario y ser requerido es
+**10x-30x** en coste. Si descubres un problema, arréglalo
+inmediatamente sin esperar al cierre trimestral.
+
+## Errores frecuentes
+
+**Pensar que "ya lo enviaré con el 303"**
+
+El 303 no sustituye a VeriFactu. Son sistemas paralelos. El 303
+declara IVA al trimestre; VeriFactu declara cada factura al momento.
+Si solo presentas 303 y no remites a VeriFactu, la AEAT detecta el
+descuadre.
+
+**Modificar registros locales en lugar de remitir el original**
+
+Si un registro queda pendiente, no modifiques nada. Reenvía el
+original con su fecha y datos originales. La huella anterior debe
+seguir cuadrando.
+
+**No reportar incidencias graves**
+
+Si tu sistema cae 5 días y reenvías sin notificar, la AEAT puede
+interpretar el patrón como ocultación. Notificar la incidencia
+proactivamente cambia el ángulo de la inspección.
+
+**Confundir incumplimiento con extemporaneidad**
+
+Los recargos del 5-20 % aplican a presentación tardía. Si
+**directamente no envías**, no hay recargo: hay **sanción** mucho más
+alta. La "presentación tardía" presupone que finalmente se presenta
+voluntariamente.
+
+## Preguntas frecuentes
+
+**¿Si la incidencia técnica es de mi proveedor de software, asumo el
+recargo yo?**
+
+Sí, ante la AEAT eres tú el obligado. Internamente puedes reclamar a
+tu proveedor por daños y perjuicios contractuales, pero la
+responsabilidad fiscal recae en ti.
+
+**¿Hay límite de cuántas facturas puedo regularizar de golpe?**
+
+No hay límite oficial, pero remitir 500 registros antiguos de golpe
+levanta alertas. Si has tenido una incidencia grande, mejor
+distribuir el reenvío en bloques + documentar la causa.
+
+**¿Si trabajo solo en VeriFactu modo "no obligatorio", también hay
+recargo?**
+
+Sí. El modo no-VeriFactu es legal pero exige conservación local
+estricta. Si la AEAT requiere los registros y tú no los tienes en
+orden y a tiempo, sanción.
+
+**¿Cómo me entero si la AEAT me ha aceptado un registro retrasado?**
+
+Vía la API VeriFactu o sede AEAT. Cada registro retorna un estado:
+
+- **Correcto**: aceptado y válido.
+- **Aceptado con incidencias**: aceptado pero con observaciones (ej.
+  retraso documentado).
+- **Rechazado**: no aceptado, requiere corrección.
+
+---
+
+¿Tu caso tiene matices (cierre con deudas, baja con regularización,
+inspección activa)? Un asesor fiscal vale lo que cobra. El contenido
+aquí es informativo y no sustituye asesoramiento profesional.
+
+¿Más cumplimiento?
+
+- [Sanciones VeriFactu 2026](/guias/cumplimiento/sanciones-verifactu-2026)
+- [Plazos AEAT VeriFactu](/guias/cumplimiento/plazos-aeat-verifactu-2025-2026)
+- [FAQ VeriFactu 25 preguntas](/guias/cumplimiento/faq-verifactu-25-preguntas-frecuentes)
+- [Errores encadenamiento SHA-256](/guias/cumplimiento/errores-encadenamiento-huella-sha256)
