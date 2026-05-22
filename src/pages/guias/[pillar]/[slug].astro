@@ -1,5 +1,7 @@
 ---
 import { type CollectionEntry, getCollection, render } from 'astro:content';
+import InArticleAd from '../../../components/ads/InArticleAd.astro';
+import McpInlineCallout from '../../../components/cta/McpInlineCallout.astro';
 import ArticleLayout from '../../../layouts/ArticleLayout.astro';
 
 export async function getStaticPaths() {
@@ -18,5 +20,5 @@ const { article } = Astro.props;
 const { Content, headings } = await render(article);
 ---
 <ArticleLayout article={article} headings={headings}>
-  <Content />
+  <Content components={{ InArticleAd, McpInlineCallout }} />
 </ArticleLayout>
