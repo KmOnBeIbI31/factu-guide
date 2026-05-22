@@ -1,5 +1,5 @@
 const SITE_URL = 'https://factu.guide';
-const AUTHOR_NAME = 'Adrián Sánchez';
+const AUTHOR_NAME = 'Adrián Sánchez Quijada';
 const AUTHOR_URL = `${SITE_URL}/sobre`;
 
 export type ArticleData = {
@@ -22,7 +22,10 @@ const PERSON = {
   '@type': 'Person',
   name: AUTHOR_NAME,
   url: AUTHOR_URL,
-  sameAs: [] as string[], // fill in Task 41 with GitHub/LinkedIn
+  sameAs: [
+    'https://github.com/KmOnBeIbI31',
+    'https://www.linkedin.com/in/adri%C3%A1n-s%C3%A1nchez-quijada-a7016a353/',
+  ],
 };
 
 export function articleSchema(article: ArticleData) {
