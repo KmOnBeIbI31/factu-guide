@@ -1,0 +1,272 @@
+---
+title: "Errores de encadenamiento VeriFactu: cómo recuperar la huella SHA-256"
+description: "Por qué se rompe el encadenamiento SHA-256 de VeriFactu y cómo recuperarlo: huella perdida, ID interno, anulaciones tardías y reseteo de cadena."
+pillar: cumplimiento
+publishedAt: 2026-05-22
+author: adrian-sanchez
+tags: [verifactu, encadenamiento, sha256, errores, huella]
+readingTime: 10
+sources:
+  - label: "BOE Real Decreto 1007/2023"
+    url: "https://www.boe.es/eli/es/rd/2023/12/05/1007"
+  - label: "AEAT — Esquemas VeriFactu"
+    url: "https://sede.agenciatributaria.gob.es/Sede/iva/sistemas-informaticos-facturacion-verifactu.html"
+---
+
+El **encadenamiento por SHA-256** es la columna vertebral de
+VeriFactu. Cada registro lleva un campo `Encadenamiento` con la
+huella del anterior, formando una cadena criptográfica que la AEAT
+verifica al recibir. Si esa huella no cuadra, el registro va al estado
+**"Rechazado"** y no se considera emitido.
+
+Esta guía cubre los errores más habituales que rompen el
+encadenamiento y cómo recuperarse de cada uno.
+
+## Cómo funciona la cadena
+
+Cada emisor tiene una cadena propia de registros, ordenada por
+fecha de emisión:
+
+```
+Registro 1: Encadenamiento = PrimerRegistro=S
+            Huella: ABC...001
+
+Registro 2: Encadenamiento = ABC...001
+            Huella: DEF...002
+
+Registro 3: Encadenamiento = DEF...002
+            Huella: GHI...003
+```
+
+La huella de cada registro se calcula sobre los campos canónicos del
+registro **más** la huella anterior. Por eso, cambiar cualquier campo
+de un registro pasado rompe **todos los posteriores**: tienen huellas
+calculadas sobre datos obsoletos.
+
+## Error 1: Huella anterior no coincide
+
+El más común. Tu sistema envía un registro con la huella anterior
+calculada incorrectamente, y la AEAT lo rechaza con:
+
+```
+"La huella indicada en el campo HuellaAnterior no coincide con la
+huella canónica del registro anterior de este emisor."
+```
+
+### Causas frecuentes
+
+1. **ERP que calcula la huella manualmente con un algoritmo distinto
+   al canónico AEAT**. Cada implementación que no usa exactamente el
+   esquema oficial produce huellas distintas.
+2. **Tu sistema reenvía un registro antiguo** con la huella del
+   momento original, pero entre medias has emitido otros registros y
+   la cadena ha avanzado.
+3. **Concurrencia**: dos procesos emiten al mismo tiempo con la misma
+   "huella anterior" como referencia. Uno gana, el otro va a la cola
+   con huella obsoleta.
+
+### Cómo recuperarse
+
+Pides a la AEAT la **huella canónica real** del último registro
+aceptado por la API (campo `HuellaUltimaFactura` en el GET de tu
+emisor). Recalcula la huella del registro pendiente con esa huella
+real como anterior. Reenvías.
+
+Si usas [verifactu-mcp](/mcp), la herramienta `get_last_hash` te
+devuelve la huella canónica desde el log AEAT.
+
+## Error 2: Huella perdida (catástrofe del servidor)
+
+Tu sistema se rompe, el disco se daña, la base de datos local se
+corrompe. Pierdes la huella del último registro emitido y no tienes
+backup.
+
+### Cómo recuperarse
+
+1. **Consulta a la AEAT**: la API de VeriFactu permite GET por NIF
+   emisor + serie/número que devuelve la huella canónica del último
+   registro aceptado. **Es tu source of truth definitivo**.
+2. **Reanuda la cadena** con esa huella como referencia.
+
+No necesitas resetear la cadena ni avisar a la AEAT. La continuidad
+se mantiene mientras la huella anterior del próximo registro coincida
+con lo que la AEAT tiene.
+
+## Error 3: Reset de cadena
+
+Si por una catástrofe mayor pierdes acceso a tu cadena (ERP nuevo sin
+migración, identificador AEAT distinto, etc.) y necesitas empezar
+desde cero como si fueras un emisor nuevo:
+
+1. Envías el siguiente registro con `PrimerRegistro=S` en el bloque
+   Encadenamiento.
+2. Reportas al inspector/asesor que has tenido incidencia y has
+   reiniciado la cadena.
+3. Quedas con la huella histórica intacta en AEAT + nueva cadena
+   desde tu registro reset.
+
+Esto **no es sanción** mientras lo declares. Es sancionable si te
+detectan reset sin justificación documentada.
+
+## Error 4: ID interno AEAT no persistido
+
+Cada registro AEAT acepta tiene un ID interno (campo `id` en la
+respuesta JSON). Ese ID es necesario para:
+
+- **Anular** el registro (la anulación referencia por id, no por
+  serie/número).
+- **Consultar** estado posterior.
+
+Si tu ERP no guarda el id, no puedes anular ese registro
+posteriormente.
+
+### Cómo recuperarse
+
+Llama al endpoint `list-invoices` de la API VeriFactu filtrando por
+emisor + serie/número/fecha. Te devuelve el id correspondiente.
+Guárdalo en tu ERP.
+
+Si usas verifactu-mcp, la herramienta `list_invoices` hace esto.
+
+<InArticleAd adSlot="article-mid-1" />
+
+## Error 5: Anulación de registro no aceptado
+
+Intentas anular un registro pero la AEAT te devuelve:
+
+```
+"No se puede anular un registro con estado distinto de Correcto."
+```
+
+Esto ocurre porque el registro original aún está en estado **"No
+Registrado"** o **"Rechazado"**. La AEAT no procesa anulaciones de
+registros que no se han aceptado.
+
+### Cómo recuperarse
+
+1. Espera unos minutos (procesamiento async server-side).
+2. Consulta el estado del registro original. Si pasa a "Correcto",
+   reintenta la anulación.
+3. Si el registro está en "Rechazado" definitivamente (no transitorio),
+   **no necesitas anularlo**: nunca llegó a contar como factura. Solo
+   emites el correcto.
+
+## Error 6: Anulación de algo ya anulado
+
+```
+"La factura indicada ya es una anulación."
+```
+
+La AEAT devuelve esto si intentas anular dos veces el mismo registro.
+No tiene sentido — una factura solo se anula una vez.
+
+### Cómo recuperarse
+
+Comprueba el estado en sede AEAT o vía API: si ya está anulada, no
+hace falta hacer nada. Si quieres corregir algo más, emite **nueva
+factura** (no nueva anulación).
+
+## Error 7: Fecha en formato incorrecto
+
+```
+"FechaExpedicionFactura no tiene el formato correcto."
+```
+
+VeriFactu acepta **dos formatos de fecha** según el tipo de operación:
+
+- **Alta de registro**: acepta `DD-MM-YYYY` o ISO `YYYY-MM-DD`.
+- **Anulación**: **solo** `YYYY-MM-DD` ISO.
+
+Esta asimetría confunde. Si tu sistema usa `DD-MM-YYYY` siempre, el
+alta funciona pero la anulación falla.
+
+### Cómo recuperarse
+
+Convierte siempre la fecha a `YYYY-MM-DD` antes de enviar. Es el
+formato ISO 8601 y siempre será aceptado.
+
+## Error 8: NIF receptor inventado
+
+Si emites factura F1 con un NIF receptor que no existe en padrón
+AEAT, el registro pasa a estado **"No Registrado"** o
+**"Rechazado parcialmente"**. La AEAT lo conserva pero no lo
+considera plenamente válido.
+
+### Cómo recuperarse
+
+Verifica el NIF antes de emitir (con tu propio validador o el oficial
+AEAT). Si el cliente te dio un NIF errado:
+
+1. Pídele el NIF correcto.
+2. Emite **factura rectificativa** con datos correctos.
+3. Ambos registros (el original con NIF mal + la rectificativa)
+   quedan en la cadena.
+
+Para emisión F2 simplificada, este problema no se da (NIF receptor
+opcional).
+
+## Cómo prevenir errores de encadenamiento
+
+### Diseño de tu sistema
+
+- **Sincroniza con AEAT al inicio de cada sesión**: tu primer
+  registro del día consulta la huella real última y trabaja desde
+  ella.
+- **Cola de envío secuencial**: no permitas concurrencia entre dos
+  registros del mismo emisor (mutex por emisor).
+- **Persiste el `id` AEAT** en tu ERP junto a cada registro local.
+- **Implementa retry exponencial** en errores transitorios de red.
+- **Loguea cada envío + respuesta AEAT** con timestamp para
+  auditoría.
+
+### Software profesional vs casero
+
+Los ERPs comerciales (Holded, Quipu, Contasimple) gestionan estos
+errores internamente y la mayoría son invisibles para ti. Tu única
+obligación es ingresar bien los datos.
+
+Los sistemas caseros (Excel + plantilla, scripts ad-hoc) suelen
+romper la cadena en cuanto hay un error de red o un cliente borra
+una fila. Si emites poco volumen, OK. Si emites diario, usa
+software profesional o [verifactu-mcp](/mcp) que mantiene log y
+maneja errores.
+
+## Preguntas frecuentes
+
+**¿Si rompo la cadena, hay sanción?**
+
+No automáticamente. La AEAT considera infracción **alterar huellas
+ya enviadas** (sanción muy grave hasta 50.000 €). Romper la cadena
+hacia delante por error técnico es recuperable sin sanción si lo
+arreglas pronto y documentas.
+
+**¿Puedo tener varias cadenas simultáneas?**
+
+No. Una cadena por **emisor (NIF)**. Si tienes varios negocios bajo
+sociedades distintas, cada uno tiene su cadena propia.
+
+**¿La AEAT verifica la huella en tiempo real?**
+
+Sí, en el momento de aceptar el registro. Por eso te rechaza
+inmediatamente si la huella anterior no coincide.
+
+**¿Qué pasa si emito offline durante días?**
+
+VeriFactu acepta envío diferido por incidencia técnica documentada.
+Mientras tengas log local de los registros emitidos en ese periodo,
+los reenvías en orden al volver la conexión. La AEAT los aceptará
+con timestamp original siempre que la huella anterior coincida.
+
+---
+
+¿Volumen alto, integración con ERP custom, casos límite? Un asesor
+fiscal + arquitecto de software pueden ayudar. El contenido aquí es
+informativo y no sustituye asesoramiento profesional ni soporte
+técnico de tu proveedor.
+
+¿Más cumplimiento?
+
+- [FAQ VeriFactu 25 preguntas](/guias/cumplimiento/faq-verifactu-25-preguntas-frecuentes)
+- [Sanciones VeriFactu 2026](/guias/cumplimiento/sanciones-verifactu-2026)
+- [Plazos AEAT VeriFactu](/guias/cumplimiento/plazos-aeat-verifactu-2025-2026)
+- [verifactu-mcp](/mcp) para devs que prefieren CLI/Claude Code.
