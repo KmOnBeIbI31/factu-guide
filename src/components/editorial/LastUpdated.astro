@@ -1,0 +1,13 @@
+---
+interface Props { publishedAt: Date; updatedAt?: Date; readingTime: number; }
+const { publishedAt, updatedAt, readingTime } = Astro.props;
+const fmt = (d: Date) => d.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+<div class="font-sans text-xs text-ink-subtle border-t border-b border-zinc-200 py-2 my-4 flex flex-wrap items-center gap-x-4 gap-y-1">
+  <span>Publicado: {fmt(publishedAt)}</span>
+  {updatedAt && updatedAt.getTime() !== publishedAt.getTime() && (
+    <span>Actualizado: {fmt(updatedAt)}</span>
+  )}
+  <span>·</span>
+  <span>{readingTime} min de lectura</span>
+</div>

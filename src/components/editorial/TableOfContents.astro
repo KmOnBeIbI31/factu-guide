@@ -1,0 +1,27 @@
+---
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+interface Props { headings: Heading[]; }
+const { headings } = Astro.props;
+
+const items = headings.filter(h => h.depth === 2 || h.depth === 3);
+---
+{items.length > 0 && (
+  <nav aria-label="Índice del artículo" class="hidden lg:block sticky top-20 self-start">
+    <div class="text-xs uppercase tracking-wider text-ink-subtle mb-3 font-sans font-semibold">
+      En esta guía
+    </div>
+    <ol class="space-y-1.5 text-sm font-sans">
+      {items.map(h => (
+        <li class={h.depth === 3 ? 'pl-3' : ''}>
+          <a href={`#${h.slug}`} class="text-ink-muted hover:text-brand-700 transition">
+            {h.text}
+          </a>
+        </li>
+      ))}
+    </ol>
+  </nav>
+)}
