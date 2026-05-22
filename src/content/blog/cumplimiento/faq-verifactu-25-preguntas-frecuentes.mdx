@@ -1,0 +1,284 @@
+---
+title: "FAQ VeriFactu: 25 preguntas frecuentes (con respuestas claras)"
+description: "Las 25 dudas que más recibo sobre VeriFactu: plazos, sanciones, casos prácticos, encadenamiento SHA-256, software compatible y errores caros. Respondidas con fuentes oficiales."
+pillar: cumplimiento
+publishedAt: 2026-05-22
+author: adrian-sanchez
+tags: [verifactu, aeat, faq, autonomo, encadenamiento]
+readingTime: 14
+sources:
+  - label: "BOE Real Decreto 1007/2023 (regula VeriFactu)"
+    url: "https://www.boe.es/eli/es/rd/2023/12/05/1007"
+  - label: "AEAT — Sistemas Informáticos de Facturación (SIF)"
+    url: "https://sede.agenciatributaria.gob.es/Sede/iva/sistemas-informaticos-facturacion-verifactu.html"
+---
+
+VeriFactu lleva en boca de gestorías y autónomos desde 2023, pero la
+documentación oficial sigue siendo densa y los plazos cambian con cada
+modificación del calendario. Estas son las 25 preguntas que más me hacen,
+respondidas sin rodeos y con enlaces a la fuente cuando aplica.
+
+Si vas justo de tiempo: las preguntas críticas son la **1** (qué es), la
+**3** (cuándo te aplica), la **11** (sanciones) y la **22** (software). El
+resto resuelve dudas técnicas y casos límite.
+
+## Plazos y obligación
+
+### 1. ¿Qué es VeriFactu y desde cuándo es obligatorio?
+
+VeriFactu es el sistema que obliga a remitir a la AEAT, de forma
+inmediata y por medios electrónicos, cada registro de facturación que
+emites. Está regulado por el **Real Decreto 1007/2023** y forma parte del
+desarrollo de la Ley Antifraude. La obligación entró en vigor el **1 de
+julio de 2025** para sociedades del Impuesto sobre Sociedades, y se
+extiende a autónomos en estimación directa a partir del **1 de enero de
+2026** (calendario sujeto a posibles aplazamientos por orden ministerial).
+
+### 2. ¿Quién está obligado a usar VeriFactu?
+
+Toda persona física o jurídica que emita facturas en territorio español
+y no esté ya en el SII (Suministro Inmediato de Información). Es decir:
+autónomos, sociedades pequeñas y medianas, profesionales colegiados,
+asociaciones que facturen. Quedan fuera los que ya están en SII (grandes
+empresas con facturación superior a 6 millones €/año, grupos IVA,
+inscritos en REDEME).
+
+### 3. ¿Cuándo entra en vigor para autónomos?
+
+El calendario actualmente vigente es:
+
+- **1 julio 2025** — Sociedades sujetas al Impuesto sobre Sociedades.
+- **1 enero 2026** — Autónomos y demás personas físicas obligadas.
+
+El plazo se ha aplazado en varias ocasiones desde la redacción original
+del Real Decreto, así que conviene confirmar en la sede de la AEAT antes
+de actuar. Si tu gestoría te ha dado una fecha distinta, contrasta con
+la sede oficial.
+
+### 4. ¿Estoy obligado si facturo menos de 3.000 € al año?
+
+Sí. VeriFactu no tiene umbral mínimo de facturación. Aplica a cualquier
+emisor de factura sujeto a IRPF o IS, independientemente del volumen.
+Lo que sí varía es la fecha en la que te entra en vigor (ver pregunta 3).
+
+### 5. ¿VeriFactu sustituye al SII?
+
+No. SII (grandes empresas) y VeriFactu (resto) son sistemas paralelos.
+Si una empresa pasa a estar obligada a SII por crecer, deja
+automáticamente de estar en VeriFactu, y al revés. Nunca convives en los
+dos a la vez.
+
+## Aspectos técnicos del registro
+
+### 6. ¿Cómo se calcula la huella SHA-256 de un registro?
+
+La AEAT define un formato canónico (orden de campos y separadores) sobre
+el que se calcula el **SHA-256**. Los campos que entran son: ID emisor,
+serie/número de factura, fecha de expedición, importe total, huella del
+registro anterior, y otros marcadores del bloque encadenamiento.
+
+Si te interesa probarlo, en factu.guide tienes un
+[generador XML VeriFactu](/herramientas/generador-xml-verifactu) que
+calcula la huella en el navegador para que veas cómo cambia al modificar
+un campo.
+
+### 7. ¿Qué pasa si pierdo la huella anterior?
+
+Si tu sistema se rompe y no puedes recuperar la última huella, la AEAT
+permite reiniciar la cadena marcando el siguiente registro como
+**PrimerRegistro=S** y reportando la incidencia. Esto deja constancia en
+el log y no se considera infracción mientras lo declares. Si lo ocultas
+y se detecta vacío en la cadena, eso sí es sancionable.
+
+### 8. ¿Puedo usar Excel o Word para emitir VeriFactu?
+
+No directamente. VeriFactu exige emitir el registro en formato XML
+estructurado y remitirlo electrónicamente a la AEAT. Excel/Word no
+generan ese XML por sí solos. Necesitas un software de facturación
+homologado o una herramienta intermedia que lea tus datos y construya
+el envío. Las facturas en papel siguen siendo válidas como documento
+para el cliente, pero el registro electrónico AEAT es obligatorio aparte.
+
+### 9. ¿Qué es un registro encadenado?
+
+Cada registro VeriFactu incluye en su bloque
+`Encadenamiento` la huella SHA-256 del registro anterior emitido por
+el mismo emisor. Eso forma una cadena criptográfica donde alterar un
+registro pasado rompe todas las huellas posteriores, dejando rastro
+inmediato.
+
+### 10. ¿Cuántos campos obligatorios tiene un registro de alta?
+
+Los campos canónicos obligatorios son aproximadamente **22**, agrupados
+en cuatro bloques: identificación de la factura (emisor, serie/número,
+fecha), datos del destinatario (NIF + razón social, salvo F2
+simplificadas), desglose impositivo (base, tipo, cuota) y encadenamiento.
+Algunos software los rellenan por defecto, pero la responsabilidad final
+de lo enviado es del emisor.
+
+<InArticleAd adSlot="article-mid-1" />
+
+## Sanciones
+
+### 11. ¿Cuánto cuesta no cumplir VeriFactu?
+
+Las sanciones por incumplimiento son graduadas. Las más comunes:
+
+- **Infracción formal (no remisión)**: hasta **6.000 €** por factura no
+  enviada, con tope global del 1 % de la cifra de negocio.
+- **Infracción material (alteración de huellas)**: hasta **50.000 €** por
+  registro y posible inhabilitación para emitir.
+
+Tienes el detalle completo en mi guía sobre
+[sanciones VeriFactu 2026](/guias/cumplimiento/sanciones-verifactu-2026).
+
+### 12. ¿Hay sanciones por alterar la huella?
+
+Sí, y son las más caras del catálogo. La AEAT considera alterar huellas
+una infracción **muy grave** porque rompe la trazabilidad criptográfica
+del sistema. Se sanciona con multa proporcional al daño y, en casos
+graves, inhabilitación temporal.
+
+### 13. ¿Qué pasa si me equivoco en una factura ya enviada?
+
+Si la AEAT ya aceptó el registro (estado "Correcto"), tienes dos vías:
+
+- **Factura rectificativa**: nuevo registro tipo F3 que corrige la
+  anterior. La cadena se mantiene.
+- **Anulación**: si la factura nunca debió emitirse, mandas registro de
+  anulación referenciando el original.
+
+Si el estado del registro es "No Registrado" o "Rechazado", la AEAT no
+permite anular: tienes que esperar a que pase a "Correcto" (proceso
+asíncrono, segundos a minutos).
+
+### 14. ¿La AEAT inspecciona automáticamente?
+
+Sí, parcialmente. El propio sistema VeriFactu permite a la AEAT cruzar
+en tiempo real lo que declaras con lo que tu cliente declara como
+recibido. Si hay desfases sistemáticos, salta una alerta. No significa
+sanción automática, pero sí mayor probabilidad de revisión.
+
+### 15. ¿Puedo recibir sanciones acumuladas?
+
+Sí. Cada factura no enviada cuenta como infracción separada hasta el tope
+del 1 % de cifra de negocio. No remitir un mes entero por error en el
+software puede sumar muy rápido.
+
+## Casos prácticos
+
+### 16. ¿Cómo emito una factura simplificada (F2)?
+
+Las F2 (importes pequeños, ticket TPV) tienen requisitos relajados: no
+necesitan datos completos del destinatario. En VeriFactu se envían como
+registro tipo `TipoFactura=F2` con solo NIF emisor, importe, base, IVA
+y descripción. Más rápidas que las F1 pero limitadas en importe.
+
+### 17. ¿Y si facturo a un cliente extranjero?
+
+Depende del país:
+
+- **UE B2B con NIF intracomunitario** (verificado en VIES): factura sin
+  IVA (inversión sujeto pasivo), incluyes la frase legal en la factura,
+  y el registro VeriFactu se emite con base e IVA 0.
+- **UE B2C**: depende del umbral OSS (10.000 €/año). Por encima, IVA
+  del país destino, registro vía ventanilla única.
+- **Fuera UE**: servicios exentos, sin IVA, sin retención. Registro
+  VeriFactu igualmente.
+
+Tienes un caso real desarrollado en mi guía de
+[facturación dev freelance](/guias/casos/factura-dev-freelance).
+
+### 18. ¿Cómo anulo un registro mal enviado?
+
+Envías un registro de anulación con el bloque `IDFactura` apuntando al
+original (mismo emisor + serie/número + fecha de expedición). Cuidado:
+
+- La fecha en la anulación va en **formato ISO YYYY-MM-DD**, no
+  DD-MM-YYYY como acepta el alta.
+- Solo puedes anular si el original ya está en estado "Correcto".
+- No puedes anular dos veces el mismo registro.
+
+### 19. ¿Las facturas rectificativas también se encadenan?
+
+Sí. Una factura rectificativa (F3, F4 o F5 según motivo) es un registro
+más en la cadena VeriFactu. Incluye huella del anterior, hereda
+trazabilidad, y la AEAT lo procesa igual que un alta normal.
+
+### 20. ¿Puedo modificar una factura ya enviada?
+
+No directamente. Una vez la AEAT acepta el registro, está
+criptográficamente sellado. Si necesitas cambiar algo, emites:
+
+- **Rectificativa** si es corrección legítima (importe, descripción,
+  etc.).
+- **Anulación + nueva alta** si fue un error de raíz (factura nunca
+  debió existir).
+
+Modificar el XML local sin notificarlo a la AEAT no sirve: la huella
+canónica ya está fijada en sus servidores.
+
+## Software y herramientas
+
+### 21. ¿Mi software actual es compatible con VeriFactu?
+
+Depende. La AEAT exige que el software cumpla la **Orden
+HFP/1338/2024** y figure en su listado de sistemas conformes. La
+mayoría de ERPs y suites de facturación profesionales ya están
+adaptados, pero los caseros (Excel + plantilla, Word, Access) no
+suelen estarlo. Pregunta a tu proveedor por escrito si es **"SIF
+conforme"** y desde qué fecha.
+
+### 22. ¿Qué software gratuito existe para autónomos?
+
+Para volumen bajo (menos de 50 facturas/mes), las opciones gratuitas
+realistas son:
+
+- **FacturaScripts** (open source, autoalojado).
+- **Contasol Personal** (gratis para autónomos individuales).
+- **verifactu-mcp** ([nuestro proyecto](/mcp)) — para devs que
+  facturan desde Claude Code o Cursor.
+
+Para volumen alto, las suites de pago (Holded, Quipu, Contasimple) son
+más cómodas y soportan VeriFactu nativo.
+
+### 23. ¿Puedo emitir VeriFactu desde mi móvil?
+
+Sí, si tu software es web o tiene app móvil. Lo crítico no es el
+dispositivo sino la conexión a la AEAT por HTTPS con tu certificado
+digital o el de tu gestoría. Algunas suites tienen apps específicas
+(Quipu, Holded), otras solo navegador.
+
+### 24. ¿Necesito certificado digital?
+
+Sí, para emitir directamente a la AEAT. Sirve:
+
+- Certificado de **persona física** (DNI electrónico, FNMT) si eres
+  autónomo y lo emites tú.
+- Certificado de **representante** si lo emite tu gestoría en tu
+  nombre.
+
+Si usas un software intermediario que actúa de pasarela (verifactuapi.es
+y similares), el certificado puede ser del propio servicio y tú solo
+necesitas la API key.
+
+### 25. ¿Qué hace verifactu-mcp y cuándo me sirve?
+
+[verifactu-mcp](/mcp) es un servidor MCP open-source que añade 7
+herramientas de facturación electrónica a Claude Code y Cursor. Te
+permite generar, encadenar, enviar y consultar registros VeriFactu
+desde lenguaje natural, integrado en tu editor. Útil si eres dev
+freelance facturando poco y no quieres depender de una suite SaaS, o
+si quieres scriptar emisión masiva sin escribir XML a mano.
+
+---
+
+## ¿Sigues con dudas?
+
+Si tu caso no encaja en estas 25 preguntas, revisa el
+[texto completo del Real Decreto](https://www.boe.es/eli/es/rd/2023/12/05/1007)
+o consulta directamente con tu asesor fiscal. El contenido aquí es
+informativo y no sustituye asesoramiento profesional.
+
+Y si has detectado una errata en cualquier respuesta, escríbeme:
+[/contacto](/contacto).
