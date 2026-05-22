@@ -7,7 +7,6 @@ import LastUpdated from '../components/editorial/LastUpdated.astro';
 import RelatedArticles from '../components/editorial/RelatedArticles.astro';
 import SourcesList from '../components/editorial/SourcesList.astro';
 import TableOfContents from '../components/editorial/TableOfContents.astro';
-import Container from '../components/layout/Container.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
 import { articleSchema } from '../lib/seo';
 import BaseLayout from './BaseLayout.astro';
@@ -36,32 +35,56 @@ const pillarLabel: Record<string, string> = {
     })}
   />
   <article class="bg-surface-raised">
-    <Container>
-      <nav class="font-sans text-xs text-ink-subtle pt-6" aria-label="Breadcrumb">
+    <div class="mx-auto max-w-[1280px] px-4 md:px-8">
+      <nav
+        class="font-sans text-xs text-ink-subtle pt-8 pb-2"
+        aria-label="Breadcrumb"
+      >
         <a href="/guias" class="hover:text-ink">Guías</a> ›
         <a href={`/guias/${data.pillar}`} class="hover:text-ink">{pillarLabel[data.pillar]}</a> ›
         <span class="text-ink-muted">{data.title}</span>
       </nav>
-    </Container>
 
-    <Container>
-      <div class="grid gap-8 lg:grid-cols-[200px_minmax(0,1fr)_280px] py-10">
+      <div class="grid gap-12 lg:grid-cols-[240px_minmax(0,1fr)_300px] py-8 lg:py-12">
         <TableOfContents headings={headings} />
 
-        <div class="prose prose-zinc prose-headings:font-serif font-serif max-w-reading">
-          <p class="font-sans text-xs uppercase tracking-wider text-ink-subtle mb-2">
-            {pillarLabel[data.pillar]}
-          </p>
-          <h1 class="font-serif">{data.title}</h1>
-          <p class="font-serif text-lg text-ink-muted leading-relaxed">{data.description}</p>
-          <LastUpdated
-            publishedAt={data.publishedAt}
-            updatedAt={data.updatedAt}
-            readingTime={data.readingTime}
-          />
-          <AuthorCard authorId={data.author} />
+        <div class="min-w-0">
+          <header class="mb-10 pb-8 border-b border-zinc-200">
+            <p class="font-sans text-xs uppercase tracking-[0.15em] text-brand-700 font-semibold mb-3">
+              {pillarLabel[data.pillar]}
+            </p>
+            <h1 class="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-ink leading-[1.15] mb-4">
+              {data.title}
+            </h1>
+            <p class="font-serif text-lg md:text-xl text-ink-muted leading-relaxed max-w-3xl">
+              {data.description}
+            </p>
+            <LastUpdated
+              publishedAt={data.publishedAt}
+              updatedAt={data.updatedAt}
+              readingTime={data.readingTime}
+            />
+            <AuthorCard authorId={data.author} />
+          </header>
 
-          <slot />
+          <div
+            class="prose prose-zinc prose-lg max-w-none
+                   prose-headings:font-serif prose-headings:text-ink prose-headings:tracking-tight
+                   prose-h2:text-3xl prose-h2:mt-14 prose-h2:mb-6 prose-h2:pb-3 prose-h2:border-b prose-h2:border-zinc-200
+                   prose-h3:text-xl prose-h3:mt-10 prose-h3:mb-4
+                   prose-p:font-serif prose-p:leading-[1.75] prose-p:text-ink/90
+                   prose-li:font-serif prose-li:leading-[1.7]
+                   prose-strong:text-ink prose-strong:font-semibold
+                   prose-a:text-brand-700 prose-a:font-medium prose-a:no-underline hover:prose-a:underline
+                   prose-blockquote:border-l-4 prose-blockquote:border-brand-500 prose-blockquote:bg-white prose-blockquote:py-1 prose-blockquote:not-italic
+                   prose-code:before:hidden prose-code:after:hidden prose-code:bg-surface-sunken prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm prose-code:font-medium prose-code:text-ink
+                   prose-pre:bg-zinc-900 prose-pre:text-zinc-100 prose-pre:rounded-lg
+                   prose-table:font-sans prose-table:text-sm
+                   prose-th:bg-surface-sunken prose-th:text-ink prose-th:font-semibold
+                   prose-img:rounded-lg"
+          >
+            <slot />
+          </div>
 
           <SourcesList sources={data.sources} factCheckedAt={data.factCheckedAt} />
 
@@ -73,6 +96,6 @@ const pillarLabel: Record<string, string> = {
           <McpCallout />
         </aside>
       </div>
-    </Container>
+    </div>
   </article>
 </BaseLayout>

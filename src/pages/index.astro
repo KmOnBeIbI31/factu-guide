@@ -8,63 +8,213 @@ const TOOLS = [
   {
     href: '/herramientas/validador-nif',
     title: 'Validador NIF / CIF / NIE',
-    desc: 'Comprueba la letra de control AEAT en segundos.',
+    desc: 'Comprueba la letra de control AEAT en segundos. DNI, NIE, CIF con detección de tipo de organización.',
+    icon: '🔎',
+    iconBg: 'bg-brand-100 text-brand-700',
   },
   {
     href: '/herramientas/calculadora-iva',
     title: 'Calculadora IVA + IRPF',
-    desc: 'Desglose completo de factura, formato es-ES.',
+    desc: 'Desglose completo de factura con tipos vigentes 2026. Formato es-ES y banker rounding.',
+    icon: '🧮',
+    iconBg: 'bg-amber-100 text-amber-700',
   },
   {
     href: '/herramientas/generador-xml-verifactu',
     title: 'Generador XML VeriFactu',
-    desc: 'Demo educativo con huella SHA-256.',
+    desc: 'Construye un registro de alta y calcula la huella SHA-256 en el navegador. 100% client-side.',
+    icon: '🧬',
+    iconBg: 'bg-green-100 text-green-700',
+  },
+];
+
+const PILLARS = [
+  {
+    href: '/guias/cumplimiento',
+    title: 'Cumplimiento VeriFactu',
+    desc: 'Plazos AEAT, sanciones, anulaciones, encadenamiento SHA-256.',
+    icon: '⚖️',
+    iconBg: 'bg-brand-100 text-brand-700',
+  },
+  {
+    href: '/guias/fiscalidad',
+    title: 'Fiscalidad',
+    desc: 'IVA 21/10/4, retención IRPF, modelos 130/303/390, NIF VIES.',
+    icon: '📊',
+    iconBg: 'bg-amber-100 text-amber-700',
+  },
+  {
+    href: '/guias/casos',
+    title: 'Casos por sector',
+    desc: 'Dev freelance, restaurante, e-commerce, profesional sanitario.',
+    icon: '🎯',
+    iconBg: 'bg-green-100 text-green-700',
   },
 ];
 
 const latest = (await getCollection('blog', (e) => !e.data.draft))
   .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime())
   .slice(0, 6);
+
+const pillarLabel: Record<string, string> = {
+  cumplimiento: 'Cumplimiento',
+  fiscalidad: 'Fiscalidad',
+  casos: 'Casos',
+};
 ---
 <BaseLayout
   title="factu.guide — Cumple VeriFactu sin volverte loco"
-  description="Guías, calculadoras y un MCP que emite facturas desde Claude. Para autónomos y gestorías españolas."
+  description="Guías, calculadoras y un MCP que emite facturas desde Claude. Para autónomos y gestorías españolas. Independiente, gratis, sin registro."
 >
-  <section class="bg-gradient-to-br from-brand-50 to-white py-16">
+  <!-- Hero -->
+  <section class="relative overflow-hidden bg-gradient-to-br from-brand-50 via-white to-brand-50/30 py-20 md:py-28">
+    <!-- Dot pattern -->
+    <div
+      class="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(37,99,235,0.18)_1px,transparent_0)] [background-size:24px_24px] [mask-image:radial-gradient(ellipse_at_center,black,transparent_75%)]"
+      aria-hidden="true"
+    ></div>
+    <!-- Decorative blobs -->
+    <div
+      class="absolute -top-32 -right-32 h-[28rem] w-[28rem] rounded-full bg-brand-200/30 blur-3xl"
+      aria-hidden="true"
+    ></div>
+    <div
+      class="absolute -bottom-32 -left-32 h-[28rem] w-[28rem] rounded-full bg-amber-100/40 blur-3xl"
+      aria-hidden="true"
+    ></div>
+
     <Container>
-      <div class="max-w-3xl mx-auto text-center">
-        <h1 class="text-4xl md:text-5xl font-bold text-ink leading-tight">
-          Cumple VeriFactu sin volverte loco.
+      <div class="relative max-w-4xl mx-auto text-center">
+        <span class="inline-flex items-center gap-2 rounded-full bg-white border border-zinc-200 px-4 py-1.5 text-xs font-semibold text-ink-muted mb-6 shadow-sm">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+          </span>
+          VeriFactu obligatorio · 1 enero 2026 para autónomos
+        </span>
+
+        <h1 class="font-serif text-4xl sm:text-5xl md:text-6xl font-bold text-ink leading-[1.1] tracking-tight">
+          Cumple <span class="bg-gradient-to-r from-brand-600 to-brand-900 bg-clip-text text-transparent">VeriFactu</span>
+          <br class="hidden sm:block" />
+          sin volverte loco.
         </h1>
-        <p class="mt-4 text-lg text-ink-muted">
-          Guías, calculadoras y un MCP que emite facturas desde Claude. Independiente, gratis
-          y sin registro.
+
+        <p class="mt-6 text-lg md:text-xl text-ink-muted leading-relaxed max-w-2xl mx-auto">
+          Guías, calculadoras y un MCP que emite facturas desde Claude.
+          <span class="text-ink font-semibold">Independiente, gratis y sin registro.</span>
         </p>
-        <div class="mt-8 flex flex-wrap justify-center gap-3">
+
+        <div class="mt-10 flex flex-wrap justify-center gap-3">
           <a
             href="/guias"
-            class="rounded-md bg-brand-500 px-5 py-3 text-sm font-semibold text-white hover:bg-brand-600 transition"
-          >Leer las guías →</a>
+            class="inline-flex items-center gap-2 rounded-md bg-ink px-6 py-3 text-sm font-semibold text-white hover:bg-ink/90 transition shadow-sm hover:shadow-md"
+          >
+            Leer las guías
+            <span>→</span>
+          </a>
           <a
             href="/herramientas"
-            class="rounded-md border border-zinc-300 px-5 py-3 text-sm font-semibold text-ink hover:bg-surface-sunken transition"
-          >Ver herramientas</a>
+            class="inline-flex items-center gap-2 rounded-md border border-zinc-300 bg-white px-6 py-3 text-sm font-semibold text-ink hover:bg-surface-sunken hover:border-zinc-400 transition"
+          >
+            Probar herramientas
+          </a>
         </div>
       </div>
     </Container>
   </section>
 
-  <section class="py-12">
+  <!-- Stats / trust bar -->
+  <section class="border-y border-zinc-200 bg-white py-10">
     <Container>
-      <p class="text-xs uppercase tracking-wider text-ink-subtle font-semibold mb-3">Herramientas free</p>
-      <div class="grid gap-4 md:grid-cols-3">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <div>
+          <div class="text-3xl md:text-4xl font-serif font-bold text-ink">16+</div>
+          <div class="text-[11px] uppercase tracking-[0.15em] text-ink-subtle mt-1 font-semibold">Guías publicadas</div>
+        </div>
+        <div>
+          <div class="text-3xl md:text-4xl font-serif font-bold text-ink">3</div>
+          <div class="text-[11px] uppercase tracking-[0.15em] text-ink-subtle mt-1 font-semibold">Herramientas free</div>
+        </div>
+        <div>
+          <div class="text-3xl md:text-4xl font-serif font-bold text-ink">100%</div>
+          <div class="text-[11px] uppercase tracking-[0.15em] text-ink-subtle mt-1 font-semibold">En tu navegador</div>
+        </div>
+        <div>
+          <div class="text-3xl md:text-4xl font-serif font-bold text-ink">MIT</div>
+          <div class="text-[11px] uppercase tracking-[0.15em] text-ink-subtle mt-1 font-semibold">Open source</div>
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <!-- Pillars showcase -->
+  <section class="py-20 md:py-24">
+    <Container>
+      <div class="max-w-2xl mb-12">
+        <p class="text-xs uppercase tracking-[0.15em] text-brand-700 font-bold mb-3">Qué encontrarás</p>
+        <h2 class="font-serif text-3xl md:text-4xl font-bold text-ink leading-tight">
+          Todo lo que necesitas para facturar sin sustos
+        </h2>
+        <p class="mt-4 text-ink-muted">
+          Tres pillars de contenido: cumplimiento AEAT, fiscalidad práctica y casos
+          reales por sector. Sin ruido, sin afiliados ocultos.
+        </p>
+      </div>
+
+      <div class="grid gap-6 md:grid-cols-3">
+        {PILLARS.map(p => (
+          <a
+            href={p.href}
+            class="group relative block rounded-2xl border border-zinc-200 bg-white p-7 hover:shadow-xl hover:-translate-y-1 hover:border-brand-300 transition-all duration-200"
+          >
+            <div class={`h-12 w-12 rounded-xl ${p.iconBg} flex items-center justify-center text-2xl mb-5`}>
+              {p.icon}
+            </div>
+            <h3 class="font-serif text-xl font-bold text-ink mb-2">{p.title}</h3>
+            <p class="text-sm text-ink-muted leading-relaxed">{p.desc}</p>
+            <span class="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-brand-700 group-hover:gap-2 transition-all">
+              Ver guías
+              <span>→</span>
+            </span>
+          </a>
+        ))}
+      </div>
+    </Container>
+  </section>
+
+  <!-- Tools showcase -->
+  <section class="py-20 md:py-24 bg-surface-raised relative overflow-hidden">
+    <div
+      class="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(37,99,235,0.08)_1px,transparent_0)] [background-size:32px_32px]"
+      aria-hidden="true"
+    ></div>
+    <Container>
+      <div class="relative text-center max-w-2xl mx-auto mb-14">
+        <p class="text-xs uppercase tracking-[0.15em] text-brand-700 font-bold mb-3">Herramientas free</p>
+        <h2 class="font-serif text-3xl md:text-4xl font-bold text-ink leading-tight">
+          Lo que necesitas, en tu navegador
+        </h2>
+        <p class="mt-4 text-ink-muted">
+          Sin registro, sin envío de datos, sin trampas. 100% client-side: tu información
+          nunca sale de tu equipo.
+        </p>
+      </div>
+
+      <div class="relative grid gap-6 md:grid-cols-3">
         {TOOLS.map(t => (
           <a
             href={t.href}
-            class="block rounded-xl border border-zinc-200 bg-white p-5 shadow-card hover:border-brand-500 transition"
+            class="group block rounded-2xl border border-zinc-200 bg-white p-7 hover:shadow-xl hover:-translate-y-1 hover:border-brand-300 transition-all duration-200"
           >
-            <h2 class="font-semibold text-ink">{t.title}</h2>
-            <p class="mt-2 text-sm text-ink-muted">{t.desc}</p>
+            <div class={`h-12 w-12 rounded-xl ${t.iconBg} flex items-center justify-center text-2xl mb-5`}>
+              {t.icon}
+            </div>
+            <h3 class="font-serif text-lg font-bold text-ink mb-2">{t.title}</h3>
+            <p class="text-sm text-ink-muted leading-relaxed">{t.desc}</p>
+            <span class="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-brand-700 group-hover:gap-2 transition-all">
+              Abrir herramienta
+              <span>→</span>
+            </span>
           </a>
         ))}
       </div>
@@ -72,22 +222,43 @@ const latest = (await getCollection('blog', (e) => !e.data.draft))
   </section>
 
   {latest.length > 0 && (
-    <section class="py-12 bg-surface-raised">
+    <section class="py-20 md:py-24">
       <Container>
-        <div class="flex items-end justify-between mb-6">
-          <h2 class="text-2xl font-bold text-ink">Últimas guías</h2>
-          <a href="/guias" class="text-sm text-brand-600 hover:underline">Ver todas →</a>
+        <div class="flex items-end justify-between mb-10 flex-wrap gap-4">
+          <div>
+            <p class="text-xs uppercase tracking-[0.15em] text-brand-700 font-bold mb-3">Recién publicado</p>
+            <h2 class="font-serif text-3xl md:text-4xl font-bold text-ink leading-tight">Últimas guías</h2>
+          </div>
+          <a
+            href="/guias"
+            class="inline-flex items-center gap-1 text-sm font-semibold text-brand-700 hover:gap-2 transition-all"
+          >
+            Ver todas
+            <span>→</span>
+          </a>
         </div>
-        <ul class="grid gap-4 md:grid-cols-3">
+
+        <ul class="grid gap-6 md:grid-cols-3">
           {latest.map(a => (
             <li>
               <a
                 href={`/guias/${a.id}`}
-                class="block rounded-xl border border-zinc-200 bg-white p-5 shadow-card hover:border-brand-500 transition h-full"
+                class="group flex h-full flex-col rounded-2xl border border-zinc-200 bg-white p-7 hover:shadow-xl hover:-translate-y-1 hover:border-brand-300 transition-all duration-200"
               >
-                <p class="text-[10px] uppercase tracking-wider text-ink-subtle font-semibold">{a.data.pillar}</p>
-                <h3 class="mt-1 font-semibold text-ink">{a.data.title}</h3>
-                <p class="mt-2 text-sm text-ink-muted">{a.data.description}</p>
+                <p class="text-[11px] uppercase tracking-[0.15em] text-brand-700 font-bold mb-3">
+                  {pillarLabel[a.data.pillar] ?? a.data.pillar}
+                </p>
+                <h3 class="font-serif text-lg font-bold text-ink leading-snug mb-3 group-hover:text-brand-900 transition">
+                  {a.data.title}
+                </h3>
+                <p class="text-sm text-ink-muted leading-relaxed mb-4 line-clamp-3">{a.data.description}</p>
+                <div class="mt-auto flex items-center justify-between text-xs text-ink-subtle pt-4 border-t border-zinc-100">
+                  <span>{a.data.readingTime} min lectura</span>
+                  <span class="text-brand-700 font-semibold group-hover:gap-1 transition-all inline-flex items-center gap-0.5">
+                    Leer
+                    <span>→</span>
+                  </span>
+                </div>
               </a>
             </li>
           ))}
