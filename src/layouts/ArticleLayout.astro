@@ -1,5 +1,7 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import SidebarAd from '../components/ads/SidebarAd.astro';
+import McpCallout from '../components/cta/McpCallout.astro';
 import AuthorCard from '../components/editorial/AuthorCard.astro';
 import LastUpdated from '../components/editorial/LastUpdated.astro';
 import RelatedArticles from '../components/editorial/RelatedArticles.astro';
@@ -55,7 +57,8 @@ const pillarLabel: Record<string, string> = {
         </div>
 
         <aside class="hidden lg:flex flex-col gap-6 sticky top-20 self-start">
-          <slot name="sidebar" />
+          <SidebarAd adSlot="article-sidebar-1" />
+          <McpCallout />
         </aside>
       </div>
     </Container>
