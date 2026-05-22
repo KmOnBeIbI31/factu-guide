@@ -6,25 +6,44 @@ const CONTACT_EMAIL = 'hola@factu.guide';
 ---
 <BaseLayout
   title="Contacto | factu.guide"
-  description="Escríbeme con erratas, sugerencias o propuestas. Respondo en 48-72h hábiles."
+  description="Escríbenos con erratas, sugerencias o propuestas. Respuesta en 48-72h hábiles."
 >
+  <!-- Hero -->
+  <section class="relative overflow-hidden bg-gradient-to-br from-brand-50 via-white to-brand-50/30 py-16 md:py-20">
+    <div
+      class="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(37,99,235,0.18)_1px,transparent_0)] [background-size:24px_24px] [mask-image:radial-gradient(ellipse_at_center,black,transparent_75%)]"
+      aria-hidden="true"
+    ></div>
+    <Container>
+      <div class="relative max-w-3xl mx-auto text-center">
+        <p class="text-xs uppercase tracking-[0.15em] text-brand-700 font-bold mb-3">Contacto</p>
+        <h1 class="font-serif text-4xl md:text-5xl font-bold text-ink leading-[1.1] tracking-tight">
+          ¿En qué te ayudamos?
+        </h1>
+        <p class="mt-5 text-lg text-ink-muted leading-relaxed">
+          Erratas, dudas sobre alguna guía, propuesta de colaboración o
+          feedback sobre las herramientas. Respondemos en 48-72h hábiles.
+        </p>
+      </div>
+    </Container>
+  </section>
+
   <Container>
-    <section class="py-12 max-w-xl">
-      <h1 class="text-4xl font-bold text-ink">Contacto</h1>
-      <p class="mt-4 text-lg text-ink-muted">
-        ¿Errata, sugerencia, propuesta de colaboración, dudas sobre las herramientas o sobre
-        <a href="/mcp" class="text-brand-600 hover:underline">verifactu-mcp</a>? Escríbeme:
-      </p>
-      <p class="mt-6">
+    <div class="max-w-xl mx-auto py-16 md:py-20 text-center">
+      <div class="rounded-2xl border border-zinc-200 bg-white p-8 shadow-card">
+        <div class="text-4xl mb-4">✉️</div>
+        <h2 class="font-serif text-2xl font-bold text-ink mb-3">Escríbenos</h2>
+        <p class="text-ink-muted mb-6">
+          Si reportas una errata, incluye la URL y el párrafo afectado.
+        </p>
         <a
           href={`mailto:${CONTACT_EMAIL}`}
-          class="inline-flex items-center rounded-md bg-brand-500 px-5 py-3 text-sm font-semibold text-white hover:bg-brand-600 transition"
-        >Enviar email a {CONTACT_EMAIL}</a>
-      </p>
-      <p class="mt-6 text-sm text-ink-subtle">
-        Tiempo de respuesta orientativo: 48-72h hábiles. Si reportas una errata en un
-        artículo, indica la URL y el párrafo afectado.
-      </p>
-    </section>
+          class="inline-flex items-center gap-2 rounded-md bg-ink px-6 py-3 text-sm font-semibold text-white hover:bg-ink/90 transition shadow-sm hover:shadow-md"
+        >
+          {CONTACT_EMAIL}
+          <span>→</span>
+        </a>
+      </div>
+    </div>
   </Container>
 </BaseLayout>

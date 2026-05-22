@@ -7,63 +7,119 @@ const PILLARS = [
   {
     slug: 'cumplimiento',
     title: 'Cumplimiento VeriFactu',
-    desc: 'Plazos AEAT, sanciones, requisitos técnicos, FAQ.',
+    desc: 'Plazos AEAT, sanciones, anulaciones, encadenamiento SHA-256.',
+    icon: '⚖️',
+    iconBg: 'bg-brand-100 text-brand-700',
   },
   {
     slug: 'fiscalidad',
-    title: 'Fundamentos fiscales',
-    desc: 'IVA, IRPF, modelos 130/303/390, NIF/CIF.',
+    title: 'Fiscalidad',
+    desc: 'IVA 21/10/4, retención IRPF, modelos 130/303/390, NIF intracomunitario.',
+    icon: '📊',
+    iconBg: 'bg-amber-100 text-amber-700',
   },
   {
     slug: 'casos',
     title: 'Casos por sector',
     desc: 'Dev freelance, restaurante, e-commerce, profesional sanitario.',
+    icon: '🎯',
+    iconBg: 'bg-green-100 text-green-700',
   },
 ];
 
 const all = (await getCollection('blog', (e) => !e.data.draft))
   .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime())
   .slice(0, 9);
+
+const pillarLabel: Record<string, string> = {
+  cumplimiento: 'Cumplimiento',
+  fiscalidad: 'Fiscalidad',
+  casos: 'Casos',
+};
 ---
 <BaseLayout
   title="Guías VeriFactu y facturación para autónomos | factu.guide"
-  description="Guías prácticas sobre VeriFactu, IVA, IRPF y casos reales por sector. Para autónomos y gestorías."
+  description="Guías prácticas sobre VeriFactu, IVA, IRPF y casos reales por sector. Para autónomos y gestorías españolas."
 >
-  <Container>
-    <section class="py-12">
-      <h1 class="text-4xl font-bold text-ink">Guías</h1>
-      <p class="mt-3 text-lg text-ink-muted">Cumplimiento, fiscalidad y casos por sector.</p>
+  <!-- Hero -->
+  <section class="relative overflow-hidden bg-gradient-to-br from-brand-50 via-white to-brand-50/30 py-16 md:py-20">
+    <div
+      class="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(37,99,235,0.18)_1px,transparent_0)] [background-size:24px_24px] [mask-image:radial-gradient(ellipse_at_center,black,transparent_75%)]"
+      aria-hidden="true"
+    ></div>
+    <Container>
+      <div class="relative max-w-3xl mx-auto text-center">
+        <p class="text-xs uppercase tracking-[0.15em] text-brand-700 font-bold mb-3">Guías</p>
+        <h1 class="font-serif text-4xl md:text-5xl font-bold text-ink leading-[1.1] tracking-tight">
+          Cumplimiento, fiscalidad y casos por sector.
+        </h1>
+        <p class="mt-5 text-lg text-ink-muted leading-relaxed">
+          Tres bloques de contenido para que encuentres rápido lo que necesitas.
+          Sin afiliados ocultos, sin paywalls.
+        </p>
+      </div>
+    </Container>
+  </section>
 
-      <div class="mt-8 grid gap-4 md:grid-cols-3">
+  <!-- Pillars -->
+  <section class="py-16 md:py-20">
+    <Container>
+      <div class="grid gap-6 md:grid-cols-3">
         {PILLARS.map(p => (
           <a
             href={`/guias/${p.slug}`}
-            class="block rounded-xl border border-zinc-200 bg-white p-5 shadow-card hover:border-brand-500 transition"
+            class="group block rounded-2xl border border-zinc-200 bg-white p-7 hover:shadow-xl hover:-translate-y-1 hover:border-brand-300 transition-all duration-200"
           >
-            <h2 class="font-semibold text-ink">{p.title}</h2>
-            <p class="mt-2 text-sm text-ink-muted">{p.desc}</p>
+            <div class={`h-12 w-12 rounded-xl ${p.iconBg} flex items-center justify-center text-2xl mb-5`}>
+              {p.icon}
+            </div>
+            <h2 class="font-serif text-xl font-bold text-ink mb-2">{p.title}</h2>
+            <p class="text-sm text-ink-muted leading-relaxed">{p.desc}</p>
+            <span class="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-brand-700 group-hover:gap-2 transition-all">
+              Ver guías
+              <span>→</span>
+            </span>
           </a>
         ))}
       </div>
+    </Container>
+  </section>
 
-      {all.length > 0 && (
-        <>
-          <h2 class="mt-12 text-2xl font-bold text-ink">Últimas guías</h2>
-          <ul class="mt-4 divide-y divide-zinc-200">
-            {all.map(a => (
-              <li>
-                <a
-                  href={`/guias/${a.id}`}
-                  class="block py-4 hover:bg-surface-raised px-2 -mx-2 rounded"
-                >
-                  <div class="font-semibold text-ink">{a.data.title}</div>
-                  <p class="text-sm text-ink-muted mt-1">{a.data.description}</p>
-                </a>
-              </li>
-            ))}
-          </ul>
-        </>
-      )}
+  {all.length > 0 && (
+    <section class="py-16 md:py-20 bg-surface-raised">
+      <Container>
+        <div class="flex items-end justify-between mb-10 flex-wrap gap-4">
+          <div>
+            <p class="text-xs uppercase tracking-[0.15em] text-brand-700 font-bold mb-3">Últimas publicaciones</p>
+            <h2 class="font-serif text-3xl md:text-4xl font-bold text-ink leading-tight">Todas las guías</h2>
+          </div>
+        </div>
+        <ul class="grid gap-6 md:grid-cols-3">
+          {all.map(a => (
+            <li>
+              <a
+                href={`/guias/${a.id}`}
+                class="group flex h-full flex-col rounded-2xl border border-zinc-200 bg-white p-7 hover:shadow-xl hover:-translate-y-1 hover:border-brand-300 transition-all duration-200"
+              >
+                <p class="text-[11px] uppercase tracking-[0.15em] text-brand-700 font-bold mb-3">
+                  {pillarLabel[a.data.pillar] ?? a.data.pillar}
+                </p>
+                <h3 class="font-serif text-lg font-bold text-ink leading-snug mb-3 group-hover:text-brand-900 transition">
+                  {a.data.title}
+                </h3>
+                <p class="text-sm text-ink-muted leading-relaxed mb-4 line-clamp-3">{a.data.description}</p>
+                <div class="mt-auto flex items-center justify-between text-xs text-ink-subtle pt-4 border-t border-zinc-100">
+                  <span>{a.data.readingTime} min lectura</span>
+                  <span class="text-brand-700 font-semibold inline-flex items-center gap-0.5 group-hover:gap-1 transition-all">
+                    Leer
+                    <span>→</span>
+                  </span>
+                </div>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </Container>
     </section>
-  </Container>
+  )}
 </BaseLayout>

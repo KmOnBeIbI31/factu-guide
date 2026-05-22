@@ -1,6 +1,5 @@
 ---
 import Container from '../../components/layout/Container.astro';
-import Alert from '../../components/ui/Alert.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
 const MCP_GH = 'https://github.com/KmOnBeIbI31/verifactu-mcp';
@@ -29,65 +28,133 @@ const CLAUDE_JSON = `{
 ---
 <BaseLayout
   title="verifactu-mcp — Emite VeriFactu desde Claude Code | factu.guide"
-  description="Servidor MCP open-source para integrar VeriFactu (AEAT) con Claude Code y Cursor. 7 herramientas. MIT. PyPI."
+  description="Servidor MCP open-source que integra VeriFactu (AEAT) con Claude Code y Cursor. 7 herramientas. MIT. PyPI."
 >
-  <Container>
-    <section class="py-16">
-      <p class="text-xs uppercase tracking-wider text-amber-600 font-semibold mb-2">
-        Open source · MIT
-      </p>
-      <h1 class="text-4xl md:text-5xl font-bold text-ink leading-tight">verifactu-mcp</h1>
-      <p class="mt-4 text-lg text-ink-muted max-w-2xl">
-        Servidor MCP en Python que añade 7 herramientas de facturación electrónica VeriFactu
-        (AEAT) a Claude Code y Cursor. Generas, encadenas, envías y consultas registros desde
-        lenguaje natural.
-      </p>
-      <div class="mt-6 flex flex-wrap gap-3">
-        <a
-          href={MCP_GH}
-          class="rounded-md bg-ink px-5 py-2.5 text-sm font-semibold text-white hover:bg-ink/90 transition"
-        >GitHub →</a>
-        <a
-          href={MCP_PYPI}
-          class="rounded-md border border-zinc-300 px-5 py-2.5 text-sm font-semibold text-ink hover:bg-surface-sunken transition"
-        >PyPI →</a>
+  <!-- Hero -->
+  <section class="relative overflow-hidden bg-gradient-to-br from-brand-50 via-white to-brand-50/30 py-20 md:py-24">
+    <div
+      class="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(37,99,235,0.18)_1px,transparent_0)] [background-size:24px_24px] [mask-image:radial-gradient(ellipse_at_center,black,transparent_75%)]"
+      aria-hidden="true"
+    ></div>
+    <div
+      class="absolute -top-32 -right-32 h-[28rem] w-[28rem] rounded-full bg-amber-100/40 blur-3xl"
+      aria-hidden="true"
+    ></div>
+
+    <Container>
+      <div class="relative max-w-4xl mx-auto text-center">
+        <span class="inline-flex items-center gap-2 rounded-full bg-white border border-zinc-200 px-4 py-1.5 text-xs font-semibold text-ink-muted mb-6 shadow-sm">
+          <span class="h-2 w-2 rounded-full bg-amber-400"></span>
+          Open source · Licencia MIT
+        </span>
+        <h1 class="font-serif text-4xl md:text-6xl font-bold text-ink leading-[1.1] tracking-tight">
+          <span class="font-mono text-brand-700">verifactu-mcp</span>
+        </h1>
+        <p class="mt-6 text-lg md:text-xl text-ink-muted leading-relaxed max-w-2xl mx-auto">
+          Servidor MCP en Python que añade 7 herramientas de facturación
+          electrónica VeriFactu (AEAT) a Claude Code y Cursor. Generas,
+          encadenas, envías y consultas registros desde lenguaje natural.
+        </p>
+        <div class="mt-10 flex flex-wrap justify-center gap-3">
+          <a
+            href={MCP_GH}
+            class="inline-flex items-center gap-2 rounded-md bg-ink px-6 py-3 text-sm font-semibold text-white hover:bg-ink/90 transition shadow-sm hover:shadow-md"
+          >
+            <span>GitHub</span>
+            <span>→</span>
+          </a>
+          <a
+            href={MCP_PYPI}
+            class="inline-flex items-center gap-2 rounded-md border border-zinc-300 bg-white px-6 py-3 text-sm font-semibold text-ink hover:bg-surface-sunken transition"
+          >
+            PyPI
+          </a>
+        </div>
       </div>
-    </section>
+    </Container>
+  </section>
 
-    <section class="py-8">
-      <h2 class="text-2xl font-bold text-ink mb-4">Instalación</h2>
-      <ol class="space-y-4 text-sm text-ink-muted">
-        <li>
-          <strong class="text-ink">1.</strong> Instala el paquete:
-          <pre class="mt-2 overflow-x-auto rounded-md bg-zinc-900 p-3 text-xs text-zinc-100"><code>pip install verifactu-mcp</code></pre>
-        </li>
-        <li>
-          <strong class="text-ink">2.</strong> Añade esto a tu <code>~/.claude.json</code>:
-          <pre class="mt-2 overflow-x-auto rounded-md bg-zinc-900 p-3 text-xs text-zinc-100"><code>{CLAUDE_JSON}</code></pre>
-        </li>
-        <li><strong class="text-ink">3.</strong> Reinicia Claude Code y empieza a pedirle facturas.</li>
-      </ol>
-    </section>
+  <!-- Install steps -->
+  <section class="py-16 md:py-20">
+    <Container>
+      <div class="max-w-3xl mx-auto">
+        <p class="text-xs uppercase tracking-[0.15em] text-brand-700 font-bold mb-3">Instalación</p>
+        <h2 class="font-serif text-3xl md:text-4xl font-bold text-ink mb-10 leading-tight">
+          En 3 pasos
+        </h2>
 
-    <section class="py-8">
-      <h2 class="text-2xl font-bold text-ink mb-4">Las 7 herramientas</h2>
-      <table class="w-full text-sm">
-        <tbody class="divide-y divide-zinc-200">
+        <ol class="space-y-8">
+          <li class="flex gap-5">
+            <span class="flex-shrink-0 h-10 w-10 rounded-full bg-brand-100 text-brand-700 flex items-center justify-center font-serif font-bold text-lg">1</span>
+            <div class="flex-1 min-w-0">
+              <p class="font-semibold text-ink mb-2">Instala el paquete</p>
+              <pre class="overflow-x-auto rounded-lg bg-zinc-900 p-4 text-xs text-zinc-100"><code>pip install verifactu-mcp</code></pre>
+            </div>
+          </li>
+          <li class="flex gap-5">
+            <span class="flex-shrink-0 h-10 w-10 rounded-full bg-brand-100 text-brand-700 flex items-center justify-center font-serif font-bold text-lg">2</span>
+            <div class="flex-1 min-w-0">
+              <p class="font-semibold text-ink mb-2">
+                Añade esto a tu <code class="bg-surface-sunken px-1.5 py-0.5 rounded text-sm">~/.claude.json</code>
+              </p>
+              <pre class="overflow-x-auto rounded-lg bg-zinc-900 p-4 text-xs text-zinc-100"><code>{CLAUDE_JSON}</code></pre>
+            </div>
+          </li>
+          <li class="flex gap-5">
+            <span class="flex-shrink-0 h-10 w-10 rounded-full bg-brand-100 text-brand-700 flex items-center justify-center font-serif font-bold text-lg">3</span>
+            <div class="flex-1 min-w-0">
+              <p class="font-semibold text-ink">Reinicia Claude Code y pídele facturas en lenguaje natural.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </Container>
+  </section>
+
+  <!-- Tools list -->
+  <section class="py-16 md:py-20 bg-surface-raised relative overflow-hidden">
+    <div
+      class="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(37,99,235,0.08)_1px,transparent_0)] [background-size:32px_32px]"
+      aria-hidden="true"
+    ></div>
+    <Container>
+      <div class="relative max-w-3xl mx-auto">
+        <p class="text-xs uppercase tracking-[0.15em] text-brand-700 font-bold mb-3">Las 7 herramientas</p>
+        <h2 class="font-serif text-3xl md:text-4xl font-bold text-ink mb-10 leading-tight">
+          Todo el ciclo VeriFactu desde Claude
+        </h2>
+        <div class="rounded-2xl border border-zinc-200 bg-white overflow-hidden divide-y divide-zinc-200">
           {TOOLS.map(t => (
-            <tr>
-              <td class="py-2.5 pr-4 font-mono text-brand-700 whitespace-nowrap">{t.name}</td>
-              <td class="py-2.5 text-ink-muted">{t.desc}</td>
-            </tr>
+            <div class="flex items-start gap-4 p-5 hover:bg-surface-raised transition">
+              <code class="flex-shrink-0 font-mono text-sm text-brand-700 font-semibold w-56 whitespace-nowrap">{t.name}</code>
+              <p class="text-sm text-ink-muted leading-relaxed">{t.desc}</p>
+            </div>
           ))}
-        </tbody>
-      </table>
-    </section>
+        </div>
+      </div>
+    </Container>
+  </section>
 
-    <section class="py-8">
-      <Alert tone="info" title="Tu token nunca sale de tu máquina">
-        verifactu-mcp se ejecuta en local. El token de la API se lee del entorno y solo viaja
-        desde tu equipo a verifactuapi.es. Nada pasa por servidores intermedios nuestros.
-      </Alert>
-    </section>
-  </Container>
+  <!-- Security note -->
+  <section class="py-16 md:py-20">
+    <Container>
+      <div class="max-w-3xl mx-auto">
+        <div class="rounded-2xl border-l-4 border-brand-500 bg-brand-50/50 p-7">
+          <div class="flex items-start gap-4">
+            <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-brand-100 text-brand-700 flex items-center justify-center text-2xl">🔒</div>
+            <div>
+              <h3 class="font-serif text-xl font-bold text-ink mb-2">
+                Tu token nunca sale de tu máquina
+              </h3>
+              <p class="text-ink-muted leading-relaxed">
+                verifactu-mcp se ejecuta en local. El token de la API se lee
+                del entorno y solo viaja desde tu equipo al endpoint oficial.
+                Nada pasa por servidores intermedios nuestros.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Container>
+  </section>
 </BaseLayout>
