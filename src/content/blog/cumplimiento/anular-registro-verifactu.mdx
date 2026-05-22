@@ -1,0 +1,287 @@
+---
+title: "Cómo anular un registro VeriFactu paso a paso (sin penalización)"
+description: "Guía técnica para anular un registro VeriFactu ya enviado: requisitos, datos obligatorios, formato fecha ISO, errores comunes y cuándo no se puede."
+pillar: cumplimiento
+publishedAt: 2026-05-22
+author: adrian-sanchez
+tags: [verifactu, anulacion, registro, factura, aeat]
+readingTime: 8
+sources:
+  - label: "BOE Real Decreto 1007/2023"
+    url: "https://www.boe.es/eli/es/rd/2023/12/05/1007"
+  - label: "AEAT — Anulación VeriFactu"
+    url: "https://sede.agenciatributaria.gob.es/Sede/iva/sistemas-informaticos-facturacion-verifactu.html"
+---
+
+Cuando emites una factura por error (cliente no era, importe mal,
+duplicada) y necesitas eliminarla del registro AEAT, el procedimiento
+es **emitir un registro de anulación**. No se borra el original — se
+añade un nuevo registro encadenado que indica "esto se cancela".
+
+Esta guía explica el procedimiento técnico, los requisitos exactos y
+los errores que más rechazan la anulación.
+
+## Cuándo se puede anular
+
+Una anulación VeriFactu es válida solo si:
+
+1. El registro original está en estado **"Correcto"** (aceptado por
+   la AEAT).
+2. El registro original **no ha sido anulado previamente**.
+3. La anulación incluye **todos los datos identificativos correctos**.
+
+Casos donde NO puedes anular:
+
+- **Registro en estado "No Registrado" o "Rechazado"**: la AEAT no lo
+  considera plenamente emitido. No tiene sentido anular algo que no
+  cuenta como factura.
+- **Registro ya anulado**: lanzas error "La factura indicada ya es
+  una anulación".
+- **Registro de cliente que ya pagó y reclama factura buena**: no
+  anules, emite **rectificativa** (F3).
+
+## Anulación vs Rectificativa
+
+Decisión clave antes de actuar:
+
+| Acción | Cuándo |
+|---|---|
+| **Anulación** | La factura **nunca debió emitirse** (cliente equivocado, duplicada, fraude). Borra la operación. |
+| **Rectificativa (F3)** | La factura es correcta pero **debe modificarse** (importe, descripción, datos cliente). Mantiene la operación. |
+
+Si el cliente ya pagó la factura mal y quiere quedarse con la
+compra, **no anules**: emite rectificativa con los datos correctos.
+Si el cliente no debía recibir factura, anula.
+
+## Datos obligatorios en la anulación
+
+Una anulación VeriFactu lleva en el cuerpo:
+
+- **NIF emisor** (tú).
+- **Identificación del registro a anular**:
+  - `IDEmisorFactura` (NIF emisor original).
+  - `NumSerieFactura` (serie/número, ej. `2026/0042`).
+  - `FechaExpedicionFactura` (fecha original de emisión).
+- **ID interno AEAT** del registro a anular (campo `id_registro_anulado`).
+- **Fecha de la anulación** (cuándo emites la anulación, no la original).
+
+Sin alguno de estos campos, la AEAT rechaza la anulación.
+
+## Formato de la fecha: trampa común
+
+VeriFactu maneja **dos formatos de fecha** según la operación:
+
+- **Alta de registro**: acepta `DD-MM-YYYY` o ISO `YYYY-MM-DD`.
+- **Anulación**: **solo** `YYYY-MM-DD` (ISO 8601).
+
+Si tu sistema usa siempre `DD-MM-YYYY`, el alta pasa pero la
+anulación falla con:
+
+```
+"FechaExpedicionFactura no tiene el formato correcto."
+```
+
+**Solución**: convierte siempre a `YYYY-MM-DD` antes de enviar
+anulación. Si usas [verifactu-mcp](/mcp), la herramienta
+`cancel_invoice` hace la conversión automática.
+
+<InArticleAd adSlot="article-mid-1" />
+
+## Procedimiento técnico
+
+### Vía API (verifactuapi.es o equivalente)
+
+```http
+POST /api/anulacion-registro-facturacion
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "IDEmisorFactura": "B12345674",
+  "NumSerieFactura": "2026/0042",
+  "FechaExpedicionFactura": "2026-05-15",
+  "id_registro_anulado": 1234567
+}
+```
+
+Respuesta exitosa:
+
+```json
+{
+  "ok": true,
+  "id": 7654321,
+  "estado": "Correcto",
+  "huella": "ABC123...DEF"
+}
+```
+
+### Vía sede electrónica AEAT (manual)
+
+1. Login con certificado digital o Cl@ve.
+2. Trámites → "Servicios sobre VeriFactu" → "Anular registro".
+3. Buscas el registro a anular por NIF + serie/número.
+4. Confirmas anulación.
+5. La AEAT genera un nuevo registro de anulación encadenado.
+
+### Vía verifactu-mcp
+
+```
+"Anula la factura 2026/0042 del emisor B12345674
+ que envié el 15 de mayo"
+```
+
+Claude ejecuta `cancel_invoice` con los datos correctos.
+
+## Encadenamiento de la anulación
+
+La anulación es un registro más en la cadena VeriFactu:
+
+```
+Registro N:   Alta factura X     huella ABC
+Registro N+1: Otra factura       huella DEF
+Registro N+2: Anulación factura X huella GHI ← este apunta a DEF
+```
+
+La huella anterior de la anulación es la huella del **último registro
+emitido**, no la del registro que se anula. La cadena sigue lineal.
+
+## Verificación post-anulación
+
+Tras enviar la anulación, verifica:
+
+1. Estado de la anulación: debe ser **"Correcto"**.
+2. Estado del registro original: pasa a **"Anulado"**.
+3. Tu contabilidad: registra el efecto contable de la anulación
+   (ajuste IVA, IRPF, balance).
+
+Si el original sigue en "Correcto" tras pocos minutos de la anulación,
+algo falló: revisa logs de envío.
+
+## Casos especiales
+
+### Anular una factura de hace meses
+
+Sí se puede. VeriFactu permite anular cualquier registro previo
+mientras esté en estado "Correcto" y no anulado. Pero:
+
+- Afecta a tu **modelo 303 trimestral** del periodo original
+  (necesitas declaración complementaria).
+- Afecta al **modelo 130** si la anulación reduce ingresos del
+  trimestre.
+- Afecta al **modelo 390 anual** si cruza ejercicios.
+
+Recomendación: cuanto antes anules, menor impacto contable.
+
+### Anular una rectificativa
+
+Las rectificativas (F3, F4, F5) también pueden anularse. El
+procedimiento es idéntico. Resultado: el registro F3 queda anulado y
+el original que la F3 modificaba **vuelve a estar vigente**.
+
+Caso poco frecuente. Si tienes que deshacer una rectificativa, lo
+normal es emitir **otra rectificativa** que la corrige.
+
+### Anular en lote (varias facturas)
+
+VeriFactu acepta una anulación por registro. Si necesitas anular 50
+facturas (ej. cierre mensual con error masivo), envías 50 registros
+de anulación individuales. El orden importa para la huella
+encadenada.
+
+Si usas verifactu-mcp, puedes pedirle:
+
+```
+"Anula todas las facturas del cliente B99999999 emitidas en mayo 2026"
+```
+
+Y Claude itera las anulaciones en orden secuencial.
+
+## Errores frecuentes
+
+### "Registro no encontrado"
+
+Causas:
+- ID interno AEAT incorrecto (no es la id que tu sistema generó —
+  es la que devolvió la AEAT al aceptar).
+- NIF emisor distinto del original.
+- Serie/número mal escritos.
+
+Solución: consulta `list_invoices` con filtros para obtener los datos
+correctos.
+
+### "La factura indicada ya es una anulación"
+
+Causa: estás intentando anular un registro que **ya es** una
+anulación de otro. La AEAT no permite anular dos veces.
+
+Solución: si necesitas restablecer el original, emite **nueva
+factura** (no nueva anulación).
+
+### "Fecha en formato incorrecto"
+
+Ver sección "Formato de la fecha".
+
+### "Estado del registro original no permite anulación"
+
+Causa: el original está en estado distinto de "Correcto".
+
+Solución:
+- Espera unos minutos (procesamiento async).
+- Verifica estado en sede o vía API.
+- Si está en "Rechazado" definitivo, no necesitas anular.
+
+## Efectos contables de la anulación
+
+Una anulación cancela los efectos de la factura original:
+
+- **IVA repercutido** se descuenta del modelo 303 del trimestre.
+- **Retención IRPF** (si aplica) se descuenta de la base imponible
+  declarada.
+- **Ingreso bruto** se reduce en tu contabilidad.
+
+Si la factura original ya consta en un modelo 303 presentado:
+
+- **Mismo trimestre**: incluye la anulación en el 303 del mismo
+  trimestre (resta IVA repercutido).
+- **Trimestre cerrado**: presenta **autoliquidación complementaria
+  rectificativa** del 303 afectado.
+
+## Preguntas frecuentes
+
+**¿Anular una factura me elimina las obligaciones fiscales?**
+
+Sí, parcialmente. Anular descuenta IVA repercutido + IRPF declarado.
+Pero si ya cobraste y devuelves al cliente, la operación contable es
+neutra. Si nunca cobraste, anular regulariza tu base imponible.
+
+**¿La AEAT puede rechazar una anulación legítima?**
+
+Sí, si:
+- El original no está en "Correcto".
+- Datos identificativos no coinciden con el original.
+- Excede plazos extremos (varios años, sospechas de fraude).
+
+**¿Tengo que avisar al cliente que anulé su factura?**
+
+Sí, por contabilidad y RGPD. Tu cliente puede haber registrado la
+factura en su sistema y necesita constancia formal de que se canceló.
+
+**¿Hay límite de cuántas anulaciones puedo hacer al año?**
+
+No oficial. Pero un patrón de muchas anulaciones (>5 % de tus
+facturas anuales) levanta alertas. Anulaciones masivas se interpretan
+como problema operativo o intento de fraude.
+
+---
+
+¿Caso complejo (anulación cross-ejercicio, anulación masiva, factura
+con anticipo cobrado)? Un asesor fiscal vale lo que cobra. El
+contenido aquí es informativo y no sustituye asesoramiento
+profesional ni soporte técnico de tu proveedor de software.
+
+¿Más cumplimiento?
+
+- [Errores encadenamiento SHA-256](/guias/cumplimiento/errores-encadenamiento-huella-sha256)
+- [Presentar VeriFactu fuera de plazo](/guias/cumplimiento/presentar-verifactu-fuera-plazo)
+- [FAQ VeriFactu 25 preguntas](/guias/cumplimiento/faq-verifactu-25-preguntas-frecuentes)
+- [verifactu-mcp](/mcp) para anulación desde Claude Code.
