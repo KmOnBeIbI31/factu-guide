@@ -1,0 +1,18 @@
+---
+import Container from '../layout/Container.astro';
+
+interface Props {
+  title: string;
+  subtitle: string;
+}
+const { title, subtitle } = Astro.props;
+---
+<Container>
+  <section class="py-10">
+    <h1 class="text-3xl md:text-4xl font-bold text-ink">{title}</h1>
+    <p class="mt-3 text-lg text-ink-muted">{subtitle}</p>
+  </section>
+  <section class="pb-6"><slot name="tool" /></section>
+  <section class="prose prose-zinc max-w-none pb-10"><slot name="content" /></section>
+  <section class="pb-10"><slot name="ad" /></section>
+</Container>
