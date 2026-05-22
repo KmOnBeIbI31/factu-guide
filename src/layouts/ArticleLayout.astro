@@ -2,6 +2,7 @@
 import type { CollectionEntry } from 'astro:content';
 import AuthorCard from '../components/editorial/AuthorCard.astro';
 import LastUpdated from '../components/editorial/LastUpdated.astro';
+import RelatedArticles from '../components/editorial/RelatedArticles.astro';
 import SourcesList from '../components/editorial/SourcesList.astro';
 import TableOfContents from '../components/editorial/TableOfContents.astro';
 import Container from '../components/layout/Container.astro';
@@ -49,6 +50,8 @@ const pillarLabel: Record<string, string> = {
           <slot />
 
           <SourcesList sources={data.sources} factCheckedAt={data.factCheckedAt} />
+
+          <RelatedArticles current={article} />
         </div>
 
         <aside class="hidden lg:flex flex-col gap-6 sticky top-20 self-start">
