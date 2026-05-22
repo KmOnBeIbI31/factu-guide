@@ -1,0 +1,170 @@
+---
+title: "Plazos VeriFactu 2025-2026: calendario completo por tipo de obligado"
+description: "Calendario actualizado VeriFactu: cuándo entra en vigor para sociedades, autónomos y profesionales. Aplazamientos históricos y qué hacer si se pasa la fecha."
+pillar: cumplimiento
+publishedAt: 2026-05-22
+author: adrian-sanchez
+tags: [verifactu, aeat, plazos, calendario, "2026"]
+readingTime: 9
+sources:
+  - label: "BOE Real Decreto 1007/2023"
+    url: "https://www.boe.es/eli/es/rd/2023/12/05/1007"
+  - label: "AEAT — Calendario VeriFactu"
+    url: "https://sede.agenciatributaria.gob.es/Sede/iva/sistemas-informaticos-facturacion-verifactu.html"
+---
+
+VeriFactu se ha aplazado tres veces desde la publicación del Real
+Decreto 1007/2023. Cada vez que la AEAT mueve la fecha, la prensa lo
+amplifica y aparece confusión sobre quién y desde cuándo está obligado.
+Esta es la foto actualizada del calendario, sin literatura.
+
+## Calendario vigente
+
+| Fecha | Quién entra |
+|---|---|
+| **1 julio 2025** | Sociedades sujetas al Impuesto sobre Sociedades (S.A., S.L., S.L.U., cooperativas, asociaciones que tributen IS) |
+| **1 enero 2026** | Autónomos en estimación directa, profesionales colegiados, sociedades civiles, comunidades de bienes |
+| **A determinar** | Régimen simplificado IRPF y módulos (pendiente desarrollo reglamentario) |
+
+La AEAT puede aplazar la entrada en vigor por orden ministerial, así
+que confirma en la
+[sede oficial](https://sede.agenciatributaria.gob.es/Sede/iva/sistemas-informaticos-facturacion-verifactu.html)
+antes de tomar decisiones.
+
+## Qué entra y qué no
+
+VeriFactu aplica a **todos** los emisores de factura en territorio
+español, **excepto**:
+
+- **Inscritos en SII** (Suministro Inmediato de Información). Suelen ser
+  empresas con facturación superior a 6 millones €/año o inscritas en
+  REDEME. Si estás en SII, sigues en SII y no te cambias a VeriFactu.
+- **Operaciones exentas de facturación** según el artículo 3 del
+  Reglamento de Facturación (RD 1619/2012). Por ejemplo, operaciones
+  con consumidor final por debajo de 400 € donde no se solicite
+  factura ordinaria.
+- **Administraciones públicas** en su actuación como tales (no como
+  empresarios).
+
+Si tu actividad cae en alguna excepción y dudas, consulta a tu asesor.
+
+## Aplazamientos históricos
+
+El calendario se ha movido varias veces desde 2024:
+
+1. **Redacción original (RD 1007/2023, diciembre 2023)**: entrada
+   1 julio 2025 para todos los obligados.
+2. **Primer aplazamiento (Orden HFP/1338/2024, noviembre 2024)**:
+   se separa el calendario por tipo de obligado.
+3. **Segundo aplazamiento (octubre 2025, durante implementación)**:
+   se confirma 1 enero 2026 para autónomos para dar más margen de
+   adaptación a software comercial.
+
+Estos aplazamientos son raros en normativa AEAT, pero el sistema
+VeriFactu ha generado más quejas de gestorías y software que cualquier
+otra obligación reciente.
+
+<InArticleAd adSlot="article-mid-1" />
+
+## Cómo saber tu fecha exacta
+
+Tres criterios determinan tu fecha de entrada:
+
+1. **Forma jurídica**: ¿persona física o jurídica? Sociedades (jurídica)
+   están desde julio 2025. Autónomos (física) desde enero 2026.
+2. **Régimen IRPF/IS**: estimación directa, simplificada, módulos.
+   Estimación directa entra primero; simplificada y módulos están
+   pendientes de fecha definitiva.
+3. **Inscripción en SII**: si estás en SII, no te aplica VeriFactu.
+
+Si eres autónomo en estimación directa, tu fecha es **1 enero 2026** y
+debes tener software conforme listo para esa fecha. Si emites en papel
+o Excel, ese sistema deja de ser legal a partir de ahí.
+
+## Plazos de envío de cada registro
+
+Una vez VeriFactu te aplica, el plazo para remitir cada registro a la
+AEAT es **inmediato** (idealmente segundos tras emitir la factura). El
+Real Decreto admite remisión diferida cuando hay incidencia técnica
+documentada, pero como norma:
+
+- **Modo VeriFactu obligatorio**: registro enviado en tiempo real,
+  encadenado con SHA-256, con marca temporal de la AEAT.
+- **Modo no-VeriFactu** (opcional pero penalizado): el emisor guarda los
+  registros y los conserva en su sistema, sin envío inmediato. La AEAT
+  recomienda no usarlo.
+
+La inmensa mayoría de software comercial usa modo VeriFactu por
+defecto. Si dudas qué modo usa tu software, pregunta al proveedor por
+escrito.
+
+## ¿Qué pasa si llega el 1 enero 2026 y no estoy listo?
+
+Si tu fecha de entrada en vigor pasa y no emites en VeriFactu:
+
+- **Mes 1-3 (gracia tácita)**: la AEAT no suele sancionar errores
+  iniciales mientras demuestres voluntad de adaptación. Histórico de
+  otras obligaciones (SII al inicio, modelo 232) ha sido similar.
+- **A partir del mes 4**: las sanciones se aplican con rigor. Cada
+  factura no enviada cuenta como infracción separada (ver
+  [sanciones VeriFactu 2026](/guias/cumplimiento/sanciones-verifactu-2026)).
+
+La forma sensata de evitar problemas es **adelantar la migración 2-3
+meses** antes de tu fecha. Si tu plazo es enero 2026, deberías estar
+emitiendo VeriFactu real en octubre-noviembre 2025 para detectar bugs
+antes del plazo crítico.
+
+## Cómo migrar antes del plazo
+
+Si todavía no has migrado, los pasos prácticos:
+
+1. **Audita tu software actual**: ¿figura en el listado AEAT de
+   sistemas conformes? Si no, contacta al proveedor para fecha de
+   adaptación.
+2. **Pide certificación por escrito**: el proveedor debe darte
+   constancia escrita de que su sistema es **"SIF conforme"** y desde
+   qué versión.
+3. **Configura tu certificado digital o el de tu gestoría** para envío
+   a la AEAT.
+4. **Haz 5-10 facturas de prueba** en modo sandbox antes de emitir en
+   producción.
+5. **Verifica el primer envío real**: que el registro llegue a la AEAT
+   con estado "Correcto" en pocos minutos.
+
+Si tu volumen es bajo (menos de 50 facturas/mes), hay soluciones
+gratuitas o muy baratas. Si emites volumen alto, paga una suite
+profesional — el coste se compensa con el riesgo de sanción evitado.
+
+Para devs y gestorías técnicas que prefieren scriptar la emisión,
+[verifactu-mcp](/mcp) integra las 7 operaciones VeriFactu en Claude
+Code o Cursor: generar XML, enviar a la AEAT, anular, listar y
+consultar estado, todo desde lenguaje natural.
+
+## Preguntas sobre plazos
+
+Tres dudas frecuentes que recibo:
+
+**¿Se puede retrasar más el plazo de autónomos?**
+
+Es improbable pero posible. La AEAT ya ha aplazado dos veces; un
+tercer aplazamiento es políticamente complicado. Asume 1 enero 2026
+como fecha real y adapta antes.
+
+**¿Si me doy de alta de autónomo en febrero 2026 estoy obligado?**
+
+Sí. La obligación es por estatus, no por antigüedad. En el momento que
+emites tu primera factura como autónomo bajo IRPF estimación directa,
+debes emitirla por VeriFactu.
+
+**¿Y si solo facturo a un cliente extranjero?**
+
+Sí, sigues obligado. VeriFactu aplica al emisor en territorio español
+con independencia del destino de la factura. El cliente extranjero no
+está sujeto a la AEAT, pero tú sí.
+
+---
+
+Si tu caso concreto no encaja claramente en este calendario, revisa
+las [25 preguntas frecuentes VeriFactu](/guias/cumplimiento/faq-verifactu-25-preguntas-frecuentes)
+o pregunta a tu asesor fiscal. El contenido aquí es informativo y no
+sustituye asesoramiento profesional.
