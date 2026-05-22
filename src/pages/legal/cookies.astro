@@ -1,0 +1,67 @@
+---
+import Container from '../../components/layout/Container.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+<BaseLayout
+  title="Política de cookies | factu.guide"
+  description="Detalle de las cookies que usa factu.guide: proveedor, duración, finalidad y categoría conforme al RGPD."
+>
+  <Container width="reading">
+    <article class="prose prose-zinc py-12">
+      <h1>Política de cookies</h1>
+
+      <p>
+        factu.guide utiliza cookies propias y de terceros para medir el uso del sitio y
+        servir publicidad. Puedes aceptar o rechazar todas las cookies no técnicas a través
+        del banner de consentimiento (Funding Choices). También puedes revisar tu elección
+        en cualquier momento haciendo clic en "Configuración de cookies" en el pie de página
+        (cuando el CMP esté plenamente desplegado).
+      </p>
+
+      <h2>Detalle de cookies</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Cookie</th><th>Proveedor</th><th>Duración</th><th>Finalidad</th><th>Tipo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>_ga</code>, <code>_ga_*</code></td>
+            <td>Google</td><td>2 años</td><td>Estadística de uso</td><td>Analítica</td>
+          </tr>
+          <tr>
+            <td><code>__gads</code>, <code>__gpi</code></td>
+            <td>Google</td><td>13 meses</td><td>Publicidad</td><td>Publicidad</td>
+          </tr>
+          <tr>
+            <td><code>IDE</code>, <code>DSID</code></td>
+            <td>Google</td><td>13 meses</td><td>Personalización publicidad</td><td>Publicidad</td>
+          </tr>
+          <tr>
+            <td><code>__cf_bm</code></td>
+            <td>Cloudflare</td><td>30 minutos</td><td>Gestión de bots</td>
+            <td>Técnica (exenta de consentimiento)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>
+        Para más información sobre cómo Google usa cookies, consulta
+        <a href="https://policies.google.com/technologies/cookies">policies.google.com/technologies/cookies</a>.
+      </p>
+
+      <h2>Cómo gestionar tu consentimiento</h2>
+      <p>
+        El banner de Funding Choices aparece la primera vez que visitas el sitio. Puedes:
+      </p>
+      <ul>
+        <li><strong>Aceptar todo</strong>: permites cookies de analítica y publicidad personalizada.</li>
+        <li><strong>Rechazar todo</strong>: solo se cargan cookies técnicas. La publicidad seguirá apareciendo pero sin personalización.</li>
+        <li><strong>Más opciones</strong>: granular por finalidad IAB.</li>
+      </ul>
+
+      <p>Última actualización: <strong>21 de mayo de 2026</strong>.</p>
+    </article>
+  </Container>
+</BaseLayout>
