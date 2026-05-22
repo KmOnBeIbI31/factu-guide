@@ -1,0 +1,41 @@
+---
+interface Props {
+  adSlot: string;
+  format?: 'auto' | 'rectangle' | 'horizontal' | 'vertical';
+  minHeight?: number;
+  class?: string;
+}
+const { adSlot, format = 'auto', minHeight = 280, class: cls = '' } = Astro.props;
+
+const publisherId = import.meta.env.PUBLIC_ADSENSE_CLIENT ?? '';
+const showAd = Boolean(publisherId);
+---
+<div
+  class={`ad-slot ${cls}`.trim()}
+  style={`min-height:${minHeight}px`}
+  data-slot={adSlot}
+  data-format={format}
+>
+  {showAd ? (
+    <ins
+      class="adsbygoogle block"
+      style="display:block"
+      data-ad-client={publisherId}
+      data-ad-slot={adSlot}
+      data-ad-format={format}
+      data-full-width-responsive="true"
+    />
+  ) : (
+    <div
+      class="flex h-full items-center justify-center rounded-md border border-dashed border-zinc-300 bg-surface-sunken text-xs text-ink-subtle"
+      style={`min-height:${minHeight}px`}
+    >
+      — Ad placeholder ({adSlot}) —
+    </div>
+  )}
+</div>
+{showAd && (
+  <script>
+    (window.adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+)}

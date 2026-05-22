@@ -1,0 +1,9 @@
+---
+import AdSlot from './AdSlot.astro';
+interface Props { adSlot: string; }
+const { adSlot } = Astro.props;
+---
+<div class="my-8 not-prose">
+  <p class="text-[10px] uppercase tracking-wider text-ink-subtle text-center mb-1">Publicidad</p>
+  <AdSlot adSlot={adSlot} format="horizontal" minHeight={120} />
+</div>
