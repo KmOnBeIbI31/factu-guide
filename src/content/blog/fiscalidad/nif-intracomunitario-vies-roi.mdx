@@ -1,0 +1,232 @@
+---
+title: "NIF intracomunitario y VIES: cómo facturar a empresas de la UE"
+description: "Cómo darte de alta en el ROI, obtener el NIF-IVA intracomunitario, verificar el de tu cliente en VIES y facturar sin IVA a empresas de la UE."
+pillar: fiscalidad
+publishedAt: 2026-05-22
+author: adrian-sanchez
+tags: [iva, intracomunitario, vies, roi, autonomo]
+readingTime: 9
+sources:
+  - label: "AEAT — Censo de operadores intracomunitarios (ROI)"
+    url: "https://sede.agenciatributaria.gob.es/Sede/iva/operaciones-intracomunitarias.html"
+  - label: "VIES — Verificación NIF-IVA"
+    url: "https://ec.europa.eu/taxation_customs/vies/"
+---
+
+Si tienes clientes empresa en otros países de la Unión Europea, puedes
+facturarles **sin IVA** mediante el mecanismo de inversión del sujeto
+pasivo. Pero para eso tu cliente y tú necesitáis estar correctamente
+inscritos en el censo de operadores intracomunitarios, y la operación
+debe verificarse vía la base de datos **VIES**.
+
+Esta guía explica cómo darte de alta en el ROI español, qué es el
+NIF-IVA, cómo se verifica el del cliente, y los casos donde esto sí
+funciona y los donde no.
+
+## Qué es el ROI y el NIF intracomunitario
+
+El **Registro de Operadores Intracomunitarios (ROI)** es un censo de la
+AEAT donde se inscriben los autónomos y empresas españolas que
+realizan operaciones con otros países UE.
+
+Cuando te inscribes en el ROI, tu **NIF se prefija con ES** y queda
+registrado en una base de datos europea (**VIES**) que los hacendistas
+de toda la UE consultan.
+
+Tu NIF en España: `45352100X`.
+Tu NIF intracomunitario tras alta ROI: `ES45352100X`.
+
+Los dos coexisten. Sigues usando tu NIF normal para operaciones
+nacionales y el `ES` + NIF para intracomunitarias.
+
+## Cómo darte de alta en el ROI
+
+Procedimiento típico:
+
+1. **Modelo 036** o **037** marcando la casilla "Solicitud alta en
+   Registro de Operadores Intracomunitarios" (casilla 130 del 036,
+   casilla similar del 037).
+2. Presentación en sede AEAT con certificado digital o Cl@ve.
+3. La AEAT analiza la solicitud. **Aproximadamente 3 meses** de
+   plazo de respuesta.
+4. Recibes resolución por notificación electrónica:
+   - **Alta concedida**: ya puedes facturar sin IVA a UE B2B.
+   - **Alta denegada**: por inactividad, indicios irregulares, etc.
+     Puedes recurrir.
+
+Durante el periodo de análisis **no puedes facturar sin IVA aún**.
+Tienes que esperar a la resolución positiva.
+
+## Verificación VIES
+
+Antes de emitir una factura sin IVA a un cliente UE B2B, **verifica
+su NIF-IVA en VIES**. URL:
+[ec.europa.eu/taxation_customs/vies](https://ec.europa.eu/taxation_customs/vies/)
+
+Pasos:
+
+1. Eliges el país del cliente.
+2. Introduces su NIF-IVA (con prefijo de país, ej. `FR12345678901`).
+3. VIES devuelve:
+   - **VÁLIDO** + razón social del cliente. Puedes facturar sin IVA.
+   - **NO VÁLIDO**. Tu cliente NO está registrado como operador
+     intracomunitario en su país. Debes facturar **con IVA español**.
+
+**Guarda screenshot o impresión PDF de la verificación** con la fecha.
+Es la prueba de que comprobaste antes de facturar.
+
+Verificación periódica recomendada: si tienes cliente recurrente,
+verifica al menos una vez al trimestre. El NIF puede dar de baja.
+
+## Cómo emitir factura sin IVA a UE B2B
+
+Una vez confirmado que tú estás en ROI y tu cliente tiene NIF-IVA
+válido:
+
+```
+Base imponible: 1.000 €
+IVA: 0 € (operación intracomunitaria exenta art. 25 Ley 37/1992)
+Total: 1.000 €
+```
+
+Datos obligatorios en la factura:
+
+- Tu NIF con prefijo: `ES45352100X`.
+- NIF del cliente con prefijo: `FR12345678901` (o el código del país).
+- Frase legal: **"Operación intracomunitaria exenta — Art. 25 Ley
+  37/1992"** o equivalente en inglés.
+- Conceptos en moneda EUR (si quieres facturar en otra moneda, debes
+  hacer el equivalente EUR al cambio del día).
+
+El cliente, al recibirla, autoliquida el IVA en su país por inversión
+del sujeto pasivo. No es problema tuyo.
+
+<InArticleAd adSlot="article-mid-1" />
+
+## Casos prácticos
+
+### Cliente francés con NIF-IVA válido
+
+Verificas en VIES, está OK. Facturas sin IVA con la frase legal. Tu
+cliente declarará el IVA en Francia. Tú reportas la operación en:
+
+- **Modelo 303 trimestral**: casillas 59-60 (operaciones
+  intracomunitarias).
+- **Modelo 349 trimestral** o mensual (declaración recapitulativa de
+  operaciones intracomunitarias).
+
+### Cliente alemán SIN NIF-IVA válido en VIES
+
+VIES devuelve "no válido". Eso significa que tu cliente NO está
+registrado como operador intracomunitario en Alemania (puede ser
+particular, autónomo no registrado, o empresa sin alta en su censo).
+
+Le facturas **con IVA español del 21 %** (o el tipo correspondiente).
+La operación se trata como nacional para efectos de tu IVA.
+
+### Cliente fuera UE (USA, UK post-Brexit)
+
+No es operación intracomunitaria, es **exportación**. Reglas distintas:
+
+- **Servicios** prestados a no establecidos fuera UE: lugar de
+  realización suele ser el país del cliente → operación NO sujeta a
+  IVA español. Tu factura va sin IVA.
+- **Bienes** exportados fuera UE: exento de IVA (con justificante de
+  exportación: DUA aduanero).
+
+Aún sin estar en ROI puedes exportar fuera UE sin IVA. El ROI solo
+aplica a UE.
+
+### Cliente UE B2C (consumidor final)
+
+NO aplica el régimen intracomunitario. Tu factura va con **IVA
+español** del país del comprador si superas los umbrales OSS
+(Ventanilla Única, 10.000 €/año vendido a particulares UE), o con IVA
+español si no superas los umbrales.
+
+OSS es un régimen específico para B2C. Si vendes online a UE
+particulares, infórmate.
+
+## Errores frecuentes
+
+**Facturar sin IVA antes de tener resuelto el alta ROI**
+
+La AEAT puede sancionar la inversión del sujeto pasivo si tu alta no
+está aprobada en el momento de la factura. Espera la resolución
+positiva antes de cambiar el flujo.
+
+**No verificar VIES antes de facturar**
+
+Si emites factura sin IVA a un cliente que luego resulta no estar
+registrado, la AEAT te reclama el IVA que debiste cobrar (21 % del
+importe) + intereses + sanción. Verifica siempre antes.
+
+**Olvidar el modelo 349**
+
+Cada operación intracomunitaria con cliente UE B2B se reporta en el
+modelo 349 trimestral (o mensual si superas 50.000 €/trimestre de
+volumen). Si el 349 no se presenta, AEAT detecta la operación en el
+303 pero sin contrapartida, y abre comprobación.
+
+**No incluir la frase legal en la factura**
+
+Una factura sin IVA pero sin la frase legal de exención
+intracomunitaria es **inválida**. Tu cliente puede rechazar el pago
+o pedir corrección. AEAT también la considera defectuosa.
+
+**Facturar en moneda extranjera sin contravalor EUR**
+
+Tu cliente puede pagarte en USD/GBP/etc., pero la factura debe llevar
+el equivalente en EUR al cambio del día de la factura. Si solo pones
+USD, tu contabilidad española no cuadra.
+
+## Coexistencia con VeriFactu
+
+Cada factura emitida a cliente UE B2B sigue siendo un registro
+VeriFactu encadenado y enviado a la AEAT. Cambia el contenido (sin
+IVA, con frase legal, NIF prefijo `FR/IT/DE...`) pero no el flujo:
+
+- Registro VeriFactu encadenado por SHA-256.
+- Reportado en tiempo real.
+- Cliente identificado por NIF intracomunitario.
+
+## Preguntas frecuentes
+
+**¿Cuánto tiempo tarda la AEAT en dar el alta ROI?**
+
+Plazo normativo: **3 meses**. Plazo real medio: 4-8 semanas. Si pasan
+3 meses sin respuesta, silencio positivo (estás dado de alta por
+defecto).
+
+**¿Pierdo el alta ROI por inactividad?**
+
+Sí. Si la AEAT detecta que llevas tiempo sin operaciones
+intracomunitarias, puede dar de baja de oficio. Te notifica. Si
+empiezas a facturar a UE, vuelves a alta.
+
+**¿Mi cliente UE puede verificar mi NIF en VIES?**
+
+Sí, y debería. Es simétrico — él verifica que tu `ES` + NIF es válido
+antes de aceptar tu factura sin IVA.
+
+**¿Puedo facturar en inglés a un cliente UE?**
+
+Sí. La frase legal puede ir en castellano e inglés:
+> "Operación intracomunitaria exenta — Art. 25 Ley 37/1992 — Reverse
+> charge — Intra-Community supply exempt from VAT."
+
+Algunos clientes prefieren la versión inglesa para sus auditores.
+
+---
+
+¿Combinas operaciones intracomunitarias con otras (exportaciones, B2C
+UE, servicios digitales)? Cada régimen tiene matices. Un asesor
+fiscal vale lo que cobra. El contenido aquí es informativo y no
+sustituye asesoramiento profesional.
+
+¿Más fiscalidad?
+
+- [Modelo 303 IVA trimestral](/guias/fiscalidad/modelo-303-iva-trimestral-guia)
+- [IVA 21/10/4 cuándo aplica](/guias/fiscalidad/iva-21-10-4-cuando-aplica)
+- [Caso dev freelance](/guias/casos/factura-dev-freelance) con
+  facturación UE detallada.
