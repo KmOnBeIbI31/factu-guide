@@ -1,0 +1,30 @@
+---
+import Container from '../components/layout/Container.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const CONTACT_EMAIL = 'hola@factu.guide';
+---
+<BaseLayout
+  title="Contacto | factu.guide"
+  description="Escríbeme con erratas, sugerencias o propuestas. Respondo en 48-72h hábiles."
+>
+  <Container>
+    <section class="py-12 max-w-xl">
+      <h1 class="text-4xl font-bold text-ink">Contacto</h1>
+      <p class="mt-4 text-lg text-ink-muted">
+        ¿Errata, sugerencia, propuesta de colaboración, dudas sobre las herramientas o sobre
+        <a href="/mcp" class="text-brand-600 hover:underline">verifactu-mcp</a>? Escríbeme:
+      </p>
+      <p class="mt-6">
+        <a
+          href={`mailto:${CONTACT_EMAIL}`}
+          class="inline-flex items-center rounded-md bg-brand-500 px-5 py-3 text-sm font-semibold text-white hover:bg-brand-600 transition"
+        >Enviar email a {CONTACT_EMAIL}</a>
+      </p>
+      <p class="mt-6 text-sm text-ink-subtle">
+        Tiempo de respuesta orientativo: 48-72h hábiles. Si reportas una errata en un
+        artículo, indica la URL y el párrafo afectado.
+      </p>
+    </section>
+  </Container>
+</BaseLayout>
