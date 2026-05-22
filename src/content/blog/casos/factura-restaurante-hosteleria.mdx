@@ -1,0 +1,244 @@
+---
+title: "Cómo factura un restaurante o bar en España (con VeriFactu 2026)"
+description: "Guía práctica de facturación para hostelería: IVA al 10%, tickets simplificados (F2), propinas, eventos, eats-in vs takeaway, y VeriFactu obligatorio."
+pillar: casos
+publishedAt: 2026-05-22
+author: adrian-sanchez
+tags: [hosteleria, restaurante, bar, iva, verifactu]
+readingTime: 10
+sources:
+  - label: "Ley 37/1992 del IVA (art. 91)"
+    url: "https://www.boe.es/eli/es/l/1992/12/28/37"
+  - label: "AEAT — Hostelería y restauración"
+    url: "https://sede.agenciatributaria.gob.es/Sede/iva/hosteleria.html"
+---
+
+Un bar, un restaurante o una cafetería en España emiten cientos o miles
+de tickets al mes. Cada uno es un registro VeriFactu desde 2026 si el
+local es de un autónomo o sociedad sujeta a IS. Y la inmensa mayoría
+son facturas simplificadas (F2) por importes pequeños.
+
+Esta guía explica cómo factura realmente un negocio de hostelería: qué
+IVA aplica, cómo manejar propinas, eats-in vs takeaway, eventos
+privados, y qué cambia con VeriFactu.
+
+## Tipo de IVA en hostelería
+
+El tipo general para servicios de hostelería es el **10 % reducido**.
+Aplica a:
+
+- Servicio en mesa (consumo en el local).
+- Take-away y delivery (consumo fuera, pero servido por el bar).
+- Pinchos, tapas, raciones.
+- Bebidas alcohólicas y refrescos servidos en el local **al 10 %**
+  (combinados también, aunque sean alcohol fuerte).
+
+Hay excepciones donde aplica **21 %**:
+
+- **Bebidas alcohólicas vendidas para llevar en botella/lata cerrada**
+  (no consumida en el local).
+- **Tabaco** y productos sustitutivos.
+- **Espectáculos privados** dentro del local sin servicio de
+  restauración asociado.
+
+Si en tu local mezclas servicio normal con take-away de botellas
+cerradas, tienes que separar los conceptos.
+
+## Tickets simplificados (F2) vs facturas completas (F1)
+
+El **99 % de las operaciones de un bar son F2**. Las F2 (factura
+simplificada) son válidas hasta:
+
+- **3.000 €** (servicio de hostelería en general).
+- **400 €** (regla general otros sectores) — no aplica a hostelería.
+
+Una F2 lleva mucho menos detalle que una F1:
+
+- Identifica el emisor (nombre, NIF, domicilio).
+- Número y fecha del ticket.
+- Descripción de los servicios.
+- Tipo IVA (10 % normalmente).
+- Importe total (IVA incluido).
+- **No necesita** datos del cliente (excepto si él lo solicita
+  expresamente).
+
+El cliente puede solicitar factura completa (F1) si quiere deducir el
+IVA o IRPF — eres tú quien emite la F1 con los datos completos del
+cliente (NIF + razón social).
+
+## VeriFactu y los tickets de TPV
+
+Desde 2026 (si eres autónomo) o 2025 (si tu local es S.L.), cada
+ticket que emites es un registro VeriFactu encadenado por SHA-256 y
+remitido a la AEAT en tiempo real.
+
+Esto significa:
+
+- Tu **TPV debe ser compatible** con VeriFactu (figure en listado AEAT
+  de "Sistemas SIF conformes").
+- Cada ticket de venta = un registro VeriFactu.
+- Las anulaciones (cliente devuelve, error) = un registro de anulación
+  encadenado.
+
+Los TPV no adaptados a VeriFactu **no son legales** desde tu fecha de
+entrada (ver
+[calendario VeriFactu](/guias/cumplimiento/plazos-aeat-verifactu-2025-2026)).
+Habla con tu proveedor de TPV ahora si no te ha dado fecha de
+adaptación.
+
+<InArticleAd adSlot="article-mid-1" />
+
+## Casos prácticos del día a día
+
+### Cliente que paga 12 € por menú del día
+
+Operación normal. Emites ticket F2:
+
+- Descripción: "Menú del día".
+- Importe total: 12,00 €.
+- Base imponible: 10,91 €.
+- IVA 10 %: 1,09 €.
+
+El ticket se emite por TPV, se registra en VeriFactu automáticamente.
+
+### Cliente pide factura completa (F1)
+
+Le pides NIF + nombre/razón social. Emites F1 con los mismos importes
+pero datos del cliente. Si tu TPV no tiene flujo F1, emites desde
+ordenador/tablet con software que sí. **Ambas son válidas, depende
+del cliente cuál necesita**.
+
+### Propinas
+
+Las propinas voluntarias **no son operación sujeta a IVA**, no
+constan en el ticket. No las facturas. En tu contabilidad las anotas
+como ingreso accesorio sin IVA repercutido.
+
+Las propinas **incluidas obligatoriamente** (algunos restaurantes de
+turismo) sí son sujetas: forman parte del servicio. Van con IVA 10 %.
+
+### Bebidas para llevar en botella cerrada
+
+Una persona entra y compra 3 cervezas en lata para llevar (no consume
+en el local). Eso es **venta minorista**, no servicio de hostelería:
+IVA **21 %** (porque alcohol).
+
+Si el mismo cliente bebe esas 3 cervezas en la barra del bar: IVA
+**10 %** (servicio de hostelería).
+
+En la práctica, los TPV de hostelería suelen tener teclas separadas
+"barra/mesa" vs "para llevar" que aplican el tipo correcto. Importante
+mantener la diferencia para que la AEAT no rechace tu desglose.
+
+### Eventos privados (cumpleaños, comidas de empresa)
+
+Si te contratan un evento completo (50 cubiertos con menú cerrado),
+emites factura F1 al cliente que organiza:
+
+- Concepto: "Servicio restauración evento [fecha]".
+- IVA: 10 %.
+- Si la empresa cliente quiere deducir el IVA: facturación F1 con su
+  NIF.
+
+Los menús con bebidas alcohólicas incluidas siguen al 10 % porque van
+asociadas al servicio.
+
+### Catering externo
+
+Llevas comida a casa de un cliente (catering puro, sin servicio en el
+local): sigue siendo **10 %** mientras incluya el servicio asociado
+(montaje, traslado, retirada). Si solo entregas la comida sin
+servicio, podría discutirse si es venta de producto (10 % alimentación)
+o servicio (10 % hostelería). Igual tipo, mismo resultado para la AEAT.
+
+### Devolución / anulación de ticket
+
+Cliente se queja, le devuelves el dinero. Tu TPV emite registro de
+anulación que referencia el ticket original. En VeriFactu, esto es
+un registro tipo "anulación" encadenado al SHA-256 del original.
+
+Si el TPV no automatiza esto, tienes que emitir manualmente la
+anulación. **No vale tachar el ticket** — debe constar en el log
+AEAT.
+
+## Cierre de caja y conciliación
+
+Al final del día, el TPV suma todos los tickets emitidos y te da:
+
+- **Importe total facturado** (suma de tickets F2 + F1).
+- **IVA repercutido** (10 % y 21 % por separado).
+- **Z de caja** (cierre fiscal, irrepetible).
+
+Esto alimenta tu modelo 303 trimestral del IVA. Si tu TPV exporta a
+contabilidad, mejor.
+
+Si tu actividad combina hostelería con venta de productos (botellas
+cerradas), el 303 mezcla casillas del 10 % y del 21 %. Tu gestoría lo
+agrupa o tu software lo hace.
+
+## Aspectos fiscales adicionales
+
+**IRPF anual**
+
+Como autónomo de hostelería en estimación directa, declaras
+rendimientos en la Renta. Los gastos de un bar/restaurante son
+amplios:
+
+- Alquiler local.
+- Suministros (luz, agua, gas).
+- Personal (nóminas, Seguridad Social).
+- Compras de alimentos y bebidas.
+- Material, mobiliario, mantenimiento.
+- Amortizaciones de cocina, mobiliario, etc.
+
+Si optas por **estimación objetiva (módulos)**, los rendimientos se
+calculan por reglas fijas (m², personal, etc.) y NO te aplica el
+modelo 303 sino el 310/311. La hostelería tiene un régimen específico
+de módulos que muchos pequeños bares usan.
+
+**Personal contratado**
+
+Si tienes camareros o cocineros contratados, eres retenedor: les
+descuentas IRPF de la nómina y lo ingresas con el modelo **111**
+trimestral. No confundir con el 130 (IRPF tuyo) ni con el 303 (IVA).
+
+## Errores frecuentes en hostelería
+
+**Aplicar 21 % a todo "por seguridad"**
+
+Si aplicas 21 % a un menú cuando corresponde 10 %, estás cobrando
+de más a tu cliente y declarando IVA repercutido por encima del
+real. La AEAT no te sanciona por declarar de más (sería absurdo) pero
+sí pierdes competitividad. Cliente paga 11 € por menú que debería
+costar 10 €.
+
+**Olvidar los tickets nulos**
+
+Tickets de prueba, tickets que cancelas durante el servicio: todos
+deben constar en el log VeriFactu. No vale "tirar" un ticket o
+borrarlo del TPV.
+
+**Mezclar caja con dinero personal**
+
+Para Hacienda, el dinero del bar es del bar. Si necesitas sacar dinero
+para uso personal, hazlo formalmente como retirada de socio (S.L.) o
+disponer de la cuenta del autónomo. Mezclar facturas personales con
+las del bar es bandera roja en inspección.
+
+**No conservar tickets de gasto**
+
+Cada compra al mayorista, factura de luz, suministro, mantenimiento,
+debe estar archivada **6 años** (plazo prescripción tributaria) para
+poder demostrar el gasto deducido.
+
+---
+
+¿Combinas hostelería con otra actividad? Tu caso puede tener
+particularidades (food trucks ambulantes, vending machines, ventas
+online). Un asesor fiscal vale lo que cobra. El contenido aquí es
+informativo y no sustituye asesoramiento profesional.
+
+Para entender el IVA en general:
+[IVA 21/10/4 cuándo aplica](/guias/fiscalidad/iva-21-10-4-cuando-aplica).
+Para presentar correctamente:
+[Modelo 303 IVA trimestral](/guias/fiscalidad/modelo-303-iva-trimestral-guia).
