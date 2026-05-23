@@ -62,6 +62,38 @@ export function websiteSchema() {
   };
 }
 
+export type BreadcrumbItem = { name: string; url: string };
+
+export function breadcrumbSchema(items: BreadcrumbItem[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((it, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: it.name,
+      item: it.url,
+    })),
+  };
+}
+
+export type FaqEntry = { q: string; a: string };
+
+export function faqSchema(entries: FaqEntry[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: entries.map((e) => ({
+      '@type': 'Question',
+      name: e.q,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: e.a,
+      },
+    })),
+  };
+}
+
 export function webApplicationSchema(opts: { name: string; url: string }) {
   return {
     '@context': 'https://schema.org',

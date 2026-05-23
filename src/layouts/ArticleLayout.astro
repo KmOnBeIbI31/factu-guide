@@ -8,7 +8,7 @@ import RelatedArticles from '../components/editorial/RelatedArticles.astro';
 import SourcesList from '../components/editorial/SourcesList.astro';
 import TableOfContents from '../components/editorial/TableOfContents.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
-import { articleSchema } from '../lib/seo';
+import { articleSchema, breadcrumbSchema, faqSchema } from '../lib/seo';
 import BaseLayout from './BaseLayout.astro';
 
 interface Props {
@@ -22,18 +22,29 @@ const pillarLabel: Record<string, string> = {
   fiscalidad: 'Fiscalidad',
   casos: 'Casos prácticos',
 };
+
+const site = Astro.site ?? new URL('https://factu.guide');
+const articleUrl = new URL(Astro.url.pathname, site).toString();
+const breadcrumbs = breadcrumbSchema([
+  { name: 'Inicio', url: site.toString().replace(/\/$/, '') },
+  { name: 'Guías', url: new URL('/guias', site).toString() },
+  { name: pillarLabel[data.pillar], url: new URL(`/guias/${data.pillar}`, site).toString() },
+  { name: data.title, url: articleUrl },
+]);
 ---
 <BaseLayout title={`${data.title} | factu.guide`} description={data.description}>
   <JsonLd
     data={articleSchema({
       title: data.title,
       description: data.description,
-      url: new URL(Astro.url.pathname, Astro.site ?? 'https://factu.guide').toString(),
+      url: articleUrl,
       publishedAt: data.publishedAt,
       updatedAt: data.updatedAt,
       sources: data.sources,
     })}
   />
+  <JsonLd data={breadcrumbs} />
+  {data.faq && data.faq.length > 0 && <JsonLd data={faqSchema(data.faq)} />}
   <article class="bg-surface-raised">
     <div class="mx-auto max-w-[1280px] px-4 md:px-8">
       <nav
