@@ -1,7 +1,32 @@
 {
   "name": "factu-guide",
-  "type": "module",
   "version": "0.0.1",
+  "description": "Static SEO site + tools for Spanish autónomos navigating VeriFactu compliance (AEAT). Built with Astro 6, Preact, Tailwind v4.",
+  "type": "module",
+  "homepage": "https://factu.guide",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KmOnBeIbI31/factu-guide.git"
+  },
+  "bugs": {
+    "url": "https://github.com/KmOnBeIbI31/factu-guide/issues"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Adrián Sánchez Quijada",
+    "url": "https://factu.guide/sobre"
+  },
+  "keywords": [
+    "verifactu",
+    "aeat",
+    "facturacion",
+    "autonomo",
+    "iva",
+    "irpf",
+    "espana",
+    "astro",
+    "tailwindcss"
+  ],
   "engines": {
     "node": ">=22.12.0"
   },
