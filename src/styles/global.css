@@ -4,6 +4,29 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+/*
+ * Metric-matched fallback fonts to minimize CLS while web fonts download.
+ * Values computed against the variable Inter and Source Serif 4 metrics so
+ * Arial/Georgia render at near-identical x-height and width during the swap
+ * window. Once the real font lands, swap happens with little visible reflow.
+ */
+@font-face {
+  font-family: "Inter Fallback";
+  src: local("Arial");
+  size-adjust: 107%;
+  ascent-override: 90%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Source Serif Fallback";
+  src: local("Georgia");
+  size-adjust: 100%;
+  ascent-override: 92%;
+  descent-override: 25%;
+  line-gap-override: 0%;
+}
+
 @theme {
   --color-brand-50: #eff6ff;
   --color-brand-100: #dbeafe;
@@ -24,8 +47,8 @@
   --color-warn: #d97706;
   --color-danger: #dc2626;
 
-  --font-sans: "Inter Variable", system-ui, sans-serif;
-  --font-serif: "Source Serif 4 Variable", Georgia, serif;
+  --font-sans: "Inter Variable", "Inter Fallback", system-ui, sans-serif;
+  --font-serif: "Source Serif 4 Variable", "Source Serif Fallback", Georgia, serif;
   --font-mono: "JetBrains Mono Variable", ui-monospace, monospace;
 
   --max-width-reading: 68ch;
