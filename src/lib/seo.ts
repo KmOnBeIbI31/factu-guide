@@ -9,6 +9,7 @@ export type ArticleData = {
   publishedAt: Date;
   updatedAt?: Date;
   sources?: Array<{ label: string; url: string }>;
+  image?: string;
 };
 
 const ORG = {
@@ -29,11 +30,13 @@ const PERSON = {
 };
 
 export function articleSchema(article: ArticleData) {
+  const imageUrl = article.image ?? `${SITE_URL}/og-default.png`;
   return {
     '@context': 'https://schema.org',
     '@type': 'Article',
     headline: article.title,
     description: article.description,
+    image: [imageUrl],
     datePublished: article.publishedAt.toISOString(),
     dateModified: (article.updatedAt ?? article.publishedAt).toISOString(),
     author: PERSON,
